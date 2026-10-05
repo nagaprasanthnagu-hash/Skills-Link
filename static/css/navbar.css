@@ -1,0 +1,200 @@
+/* ==========================================================================
+   NAVBAR — one large floating pill of frosted glass.
+   The sticky <header> is only a transparent gutter that supplies the page
+   margin; the pill itself is .navbar-app (hook unchanged). Fully rounded
+   ends on desktop; on mobile the same glass, with a 32px radius so the
+   expanded menu still looks right.
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  padding: 12px 16px 8px;
+  pointer-events: none;            /* the empty margin never blocks clicks */
+}
+
+.navbar-app {
+  pointer-events: auto;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  min-height: 68px;
+  padding: 0;
+  background: var(--gl-bg);
+  backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  -webkit-backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  border: var(--gl-border);
+  border-radius: 999px;
+  box-shadow: var(--gl-shadow), var(--gl-highlight);
+  transition: background-color var(--duration-slow) var(--ease-standard), box-shadow var(--duration-slow) var(--ease-standard);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .navbar-app { background: #FFFFFF; }
+}
+/* More opaque once content scrolls underneath, so text stays legible */
+.navbar-app.is-scrolled {
+  background: var(--gl-bg-strong);
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.14), var(--gl-highlight);
+}
+
+.navbar-app > .container {
+  max-width: none;
+  padding-inline: 1.5rem 1.25rem;
+}
+
+.navbar-app .navbar-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-right: var(--space-5);
+}
+.navbar-app .navbar-brand:hover { color: var(--color-text); }
+
+.navbar-app .navbar-toggler {
+  min-width: 44px; min-height: 44px;
+  padding: 0;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--color-text);
+  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.navbar-app .navbar-toggler:focus { box-shadow: var(--shadow-glow-focus); }
+
+.navbar-app .nav-link {
+  color: #334155;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.9rem !important;
+  border-radius: 999px;
+  position: relative;
+  transition: color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+}
+.navbar-app .nav-link:hover { color: var(--color-text); background: rgba(15, 23, 42, 0.06); }
+.navbar-app .nav-link.active {
+  color: var(--vv-primary-hover);
+  font-weight: 600;
+  background: rgba(15, 118, 110, 0.10);
+}
+
+/* Links never wrap onto two lines inside the pill */
+.navbar-app .nav-link,
+.navbar-app .nav-cta { white-space: nowrap; }
+
+/* Between the lg and xl breakpoints the pill is narrow: tighten spacing and
+   tuck the two secondary links ("How It Works", "Become a Partner") away.
+   They stay in the collapsed mobile menu and the footer. */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .navbar-app .nav-item-xl { display: none; }
+  .navbar-app > .container { padding-inline: 1.25rem 1rem; }
+  .navbar-app .navbar-brand { margin-right: var(--space-3); }
+  .navbar-app .nav-link { padding: 0.5rem 0.6rem !important; font-size: 0.9rem; }
+  .navbar-app .nav-cta { padding: 0.5rem 1rem !important; }
+}
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  .navbar-app .nav-link { padding: 0.5rem 0.7rem !important; }
+  /* the account name beside the avatar only shows once there is room (>=1400px) */
+  .navbar-app .dropdown-toggle .d-xl-inline { display: none !important; }
+}
+
+/* Right-hand primary action */
+.navbar-app .nav-cta {
+  background: var(--vv-primary);
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 0.55rem 1.25rem !important;
+  min-height: 44px;
+  font-weight: 600;
+  box-shadow: none;
+}
+.navbar-app .nav-cta:hover { background: var(--vv-primary-hover); color: #fff !important; transform: translateY(-1px); }
+
+/* Notification dot */
+.navbar-app .notification-dot {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--vv-danger);
+  border: 2px solid #fff;
+}
+
+/* Dropdowns — near-opaque. (A blurred element nested inside the blurred
+   pill cannot sample the page behind it, so a high-opacity white is both
+   the readable and the correct choice here.) */
+.navbar-app .dropdown-menu {
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  box-shadow: var(--gl-shadow);
+  padding: 0.5rem;
+  margin-top: 0.75rem;
+  min-width: 200px;
+}
+.navbar-app .dropdown-item {
+  border-radius: 12px;
+  padding: 0.6rem 0.75rem;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+}
+.navbar-app .dropdown-item i { color: var(--color-text-muted); }
+.navbar-app .dropdown-item:hover, .navbar-app .dropdown-item:focus {
+  background: var(--vv-surface-soft);
+  color: var(--vv-primary-hover);
+}
+.navbar-app .dropdown-item:hover i { color: var(--vv-primary); }
+.navbar-app .dropdown-divider { border-top: 1px solid var(--color-border); opacity: 1; }
+
+.avatar-chip {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Bootstrap hides the toggler from the lg breakpoint up; the display set
+   above would otherwise override that. */
+@media (min-width: 992px) {
+  .navbar-app .navbar-toggler { display: none; }
+}
+
+/* Mobile / tablet: same glass, safer shape, menu opens inside the pill */
+@media (max-width: 991.98px) {
+  :root { --navbar-height: 76px; }
+  .site-header { padding: 8px 12px 6px; }
+  .navbar-app { min-height: 60px; border-radius: 32px; }
+  .navbar-app > .container { padding-inline: 1rem 0.75rem; }
+  .navbar-app .navbar-brand { margin-right: 0; font-size: 1.1rem; }
+  .navbar-app .navbar-collapse {
+    padding: var(--space-2) 0 var(--space-4);
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    margin-top: var(--space-2);
+  }
+  .navbar-app .navbar-nav .nav-link { width: 100%; border-radius: 14px; }
+  .navbar-app .nav-cta-mobile { width: 100%; justify-content: center; margin-top: var(--space-2); }
+}
+@media (max-width: 380px) {
+  .site-header { padding-inline: 8px; }
+  .navbar-app > .container { padding-inline: 0.75rem 0.5rem; }
+}

@@ -1,0 +1,38 @@
+{% comment %}
+Booking status timeline — frontend-only, read-only.
+Usage: {% include 'components/booking_status_timeline.html' with status=booking.status %}
+
+Maps the EXISTING status strings (pending, accepted, in_progress, completed,
+cancelled) onto four visual steps. It reads `status` and nothing else, never
+posts or links anywhere, and does not alter any status value.
+
+  pending      -> step 1 "Requested" is current
+  accepted     -> step 1 done, step 2 "Accepted" is current
+  in_progress  -> steps 1-2 done, step 3 "In Progress" is current
+  completed    -> every step done
+  cancelled    -> all steps muted, plus a "cancelled" notice
+
+The booking model has no "On the Way" status, so that step is not drawn
+(drawing a step the data can never reach would be misleading).
+{% endcomment %}
+<ol class="booking-timeline{% if status == 'cancelled' %} is-cancelled{% endif %}" aria-label="Booking progress">
+    <li class="bt-step {% if status == 'pending' %}is-current{% elif status == 'accepted' or status == 'in_progress' or status == 'completed' %}is-done{% endif %}"{% if status == 'pending' %} aria-current="step"{% endif %}>
+        <div class="bt-dot">{% if status == 'accepted' or status == 'in_progress' or status == 'completed' %}<i class="bi bi-check-lg" aria-hidden="true"></i>{% else %}1{% endif %}</div>
+        <div class="bt-label">Requested</div>
+    </li>
+    <li class="bt-step {% if status == 'accepted' %}is-current{% elif status == 'in_progress' or status == 'completed' %}is-done{% endif %}"{% if status == 'accepted' %} aria-current="step"{% endif %}>
+        <div class="bt-dot">{% if status == 'in_progress' or status == 'completed' %}<i class="bi bi-check-lg" aria-hidden="true"></i>{% else %}2{% endif %}</div>
+        <div class="bt-label">Accepted</div>
+    </li>
+    <li class="bt-step {% if status == 'in_progress' %}is-current{% elif status == 'completed' %}is-done{% endif %}"{% if status == 'in_progress' %} aria-current="step"{% endif %}>
+        <div class="bt-dot">{% if status == 'completed' %}<i class="bi bi-check-lg" aria-hidden="true"></i>{% else %}3{% endif %}</div>
+        <div class="bt-label">In Progress</div>
+    </li>
+    <li class="bt-step {% if status == 'completed' %}is-done{% endif %}">
+        <div class="bt-dot">{% if status == 'completed' %}<i class="bi bi-check-lg" aria-hidden="true"></i>{% else %}4{% endif %}</div>
+        <div class="bt-label">Completed</div>
+    </li>
+</ol>
+{% if status == 'cancelled' %}
+<div class="booking-timeline-cancelled" role="status"><i class="bi bi-x-circle-fill" aria-hidden="true"></i> This booking was cancelled.</div>
+{% endif %}

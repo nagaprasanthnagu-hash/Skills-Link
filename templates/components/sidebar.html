@@ -1,0 +1,30 @@
+<aside class="app-sidebar {% if user_role == 'admin' %}admin-sidebar{% endif %}" aria-label="Dashboard navigation">
+    <button class="btn btn-light d-lg-none w-100 mb-3" data-sidebar-toggle type="button" aria-label="Toggle dashboard menu">
+        <i class="bi bi-list" aria-hidden="true"></i> Menu
+    </button>
+
+    {% if user_role == 'admin' %}
+        <nav aria-label="Admin">
+            <div class="sidebar-section-label">Overview</div>
+            <a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}" href="{% url 'dashboard:index' %}">
+                <i class="bi bi-grid-1x2" aria-hidden="true"></i> Dashboard
+            </a>
+
+            <div class="sidebar-section-label">Manage</div>
+            <a class="nav-link {% if '/dashboard/users/' in request.path %}active{% endif %}" href="{% url 'dashboard:users' %}">
+                <i class="bi bi-people" aria-hidden="true"></i> Users
+            </a>
+            <a class="nav-link {% if '/dashboard/providers/' in request.path %}active{% endif %}" href="{% url 'dashboard:providers' %}">
+                <i class="bi bi-person-badge" aria-hidden="true"></i> Providers
+            </a>
+            <a class="nav-link {% if '/categories/manage/' in request.path %}active{% endif %}" href="{% url 'categories:manage_list' %}">
+                <i class="bi bi-tags" aria-hidden="true"></i> Categories
+            </a>
+
+            <div class="sidebar-section-label">System</div>
+            <a class="nav-link" href="/admin/" target="_blank" rel="noopener">
+                <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Django Admin
+            </a>
+        </nav>
+    {% endif %}
+</aside>

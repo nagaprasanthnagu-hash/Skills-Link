@@ -1,0 +1,65 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block content %}
+<div class="container section">
+    {% url 'categories:list' as categories_url %}
+    {% include 'components/breadcrumbs.html' with parent_label='Services' parent_url=categories_url current_label=category.name %}
+
+    <div class="mb-4 reveal-on-scroll">
+        <h1>{{ category.name }}</h1>
+        <p class="text-muted-bookinghub">{{ category.description|default:"No description provided." }}</p>
+
+        {% if user.is_authenticated and user_role == 'customer' %}
+            <a href="{% url 'bookings:create' %}" class="btn btn-primary"><i class="bi bi-calendar-plus"></i> Book This Service</a>
+        {% elif not user.is_authenticated %}
+            <a href="{% url 'accounts:login' %}" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Log In to Book</a>
+        {% endif %}
+    </div>
+
+    <h2 class="h4 mt-5 mb-3 reveal-on-scroll">Providers in this Category</h2>
+    {% if providers %}
+        <div class="row g-3 stagger">
+            {% for provider in providers %}
+                <div class="col-md-6 col-lg-4 reveal-on-scroll">
+                    <div class="card card-float h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-2">
+                                {% if provider.profile_photo %}
+                                    <img src="{{ provider.profile_photo.url }}" class="rounded-circle me-2" width="48" height="48" style="object-fit:cover;" alt="{{ provider.user.userprofile.full_name }}">
+                                {% else %}
+                                    <div class="bookinghub-avatar-placeholder me-2" style="width:48px;height:48px;font-size:1.1rem;">{{ provider.user.userprofile.full_name|first|upper }}</div>
+                                {% endif %}
+                                <div>
+                                    <h3 class="h6 mb-0">{{ provider.user.userprofile.full_name }}</h3>
+                                    <span class="text-muted-bookinghub small">{{ provider.experience_years }} yrs experience</span>
+                                </div>
+                            </div>
+                            {% if provider.service_tags.all %}
+                                <div class="d-flex flex-wrap gap-1 mb-2">
+                                    {% for tag in provider.service_tags.all %}
+                                        <span class="btn-chip">{{ tag.display }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <p class="small">{{ provider.bio|truncatewords:20|default:"No bio provided." }}</p>
+                            {% if provider.average_rating %}
+                                <p class="small mb-2">
+                                    {% for s in provider.average_rating|star_range %}<i class="bi bi-star-fill bookinghub-star"></i>{% endfor %}
+                                    {% for s in provider.average_rating|empty_star_range %}<i class="bi bi-star bookinghub-star-empty"></i>{% endfor %}
+                                    ({{ provider.review_count }})
+                                </p>
+                            {% else %}
+                                <p class="small text-muted-bookinghub mb-2">No reviews yet</p>
+                            {% endif %}
+                            <a href="{% url 'reviews:provider_reviews' provider.pk %}" class="btn btn-outline-primary btn-sm">View Reviews</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% include 'components/empty_state.html' with icon='bi-person-x' title='No providers yet' subtitle='No active providers in this category yet.' %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,372 @@
+/* ==========================================================================
+   COMPONENTS — status badges, stars, empty states, alerts, modals, toasts,
+   pagination, booking timeline, misc. Class names are unchanged because
+   booking_tags.py and many templates reference them.
+   ========================================================================== */
+.bookinghub-status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.bookinghub-badge-pending { background: var(--color-warning-50); color: var(--vv-warning-text); }
+.bookinghub-badge-accepted { background: var(--vv-primary-soft); color: var(--vv-primary-hover); }
+.bookinghub-badge-in-progress { background: var(--color-info-50); color: var(--vv-info); }
+.bookinghub-badge-completed { background: var(--color-success-50); color: #15803D; }
+.bookinghub-badge-cancelled { background: var(--color-danger-50); color: var(--vv-danger); }
+
+.bookinghub-star { color: var(--vv-warning); }
+.bookinghub-star-empty { color: #CBD5E1; }
+
+.bookinghub-category-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-5);
+  height: 100%;
+  background: var(--vv-surface);
+  box-shadow: var(--vv-shadow);
+  transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
+}
+.bookinghub-category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--vv-shadow-hover);
+  border-color: rgba(15, 118, 110, 0.35);
+}
+
+.bookinghub-avatar-placeholder {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Empty states */
+.empty-state {
+  text-align: center;
+  padding: var(--space-7) var(--space-4);
+  color: var(--color-text-muted);
+  background: var(--vv-surface);
+  border: 1px dashed #CBD5E1;
+  border-radius: var(--radius-card);
+}
+.empty-state .empty-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto var(--space-4);
+  border-radius: 16px;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+}
+.empty-state h3 { font-size: 1.0625rem; color: var(--color-text); }
+.empty-state p { max-width: 420px; margin-inline: auto; }
+
+/* Breadcrumbs */
+.breadcrumb { background: transparent; padding: 0; margin-bottom: var(--space-4); font-size: 0.875rem; }
+.breadcrumb-item + .breadcrumb-item::before { color: #94A3B8; }
+
+/* Loading spinner + skeletons */
+.loading-spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--color-primary-100);
+  border-top-color: var(--vv-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--vv-surface-soft) 25%, #E8EDF3 37%, var(--vv-surface-soft) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShine 1.4s ease infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes skeletonShine {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+/* Toasts (JS-driven, see toast.js) */
+.toast-stack {
+  position: fixed;
+  top: calc(var(--navbar-height) + 1rem);
+  right: 1rem;
+  z-index: 1080;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: calc(100vw - 2rem);
+}
+.toast-app {
+  min-width: 280px;
+  max-width: 100%;
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--vv-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--vv-shadow-hover);
+  padding: 0.85rem 1rem;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  animation: fadeUp var(--duration-base) var(--ease-out) both;
+}
+.toast-app.success { border-left-color: var(--vv-success); }
+.toast-app.danger { border-left-color: var(--vv-danger); }
+.toast-app.warning { border-left-color: var(--vv-warning); }
+
+/* Password visibility toggle */
+.password-field { position: relative; }
+.password-field input { padding-right: 3rem; }
+.password-toggle-btn {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.password-toggle-btn:hover { color: var(--vv-primary); }
+.password-toggle-btn:focus-visible { outline: 2px solid var(--vv-primary); outline-offset: 0; }
+
+/* Interactive star rating */
+.star-rating-group { display: flex; gap: 0.25rem; }
+.star-rating-item { display: inline-flex; }
+.star-rating-item input {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.star-rating-label {
+  cursor: pointer;
+  font-size: 1.85rem;
+  line-height: 1;
+  padding: 0.15rem;
+  color: #CBD5E1;
+  transition: color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.star-rating-label:hover { transform: scale(1.1); }
+.star-rating-label.is-filled { color: var(--vv-warning); }
+.star-rating-item input:focus-visible + .star-rating-label { outline: 2px solid var(--vv-primary); outline-offset: 2px; border-radius: 6px; }
+
+/* List groups */
+.list-group-item {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+.list-group-item-action:hover, .list-group-item-action:focus {
+  background: var(--vv-surface-soft);
+  color: var(--color-text);
+  z-index: 1;
+}
+.list-group-flush > .list-group-item { border-width: 0 0 1px; }
+.list-group-flush > .list-group-item:last-child { border-bottom: 0; }
+
+/* ==========================================================================
+   Alerts (Django messages) — solid, dismissible, colour-coded
+   ========================================================================== */
+.alert {
+  border: 1px solid var(--color-border);
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  background: var(--vv-surface);
+  color: var(--color-text);
+  box-shadow: var(--vv-shadow);
+  padding: 0.85rem 1rem;
+  font-size: 0.9375rem;
+}
+/* Django-messages alert (components/alerts.html) — icon | text | close */
+.alert-app { display: flex; align-items: flex-start; gap: 0.65rem; padding-right: 0.75rem; }
+.alert-app > i:first-child { font-size: 1.1rem; line-height: 1.5; flex-shrink: 0; }
+.alert-app .alert-text { flex: 1; min-width: 0; }
+.alert-app .btn-close { position: static; padding: 0.6rem; margin: -0.35rem -0.4rem -0.35rem auto; flex-shrink: 0; opacity: 0.6; }
+.alert-app .btn-close:hover { opacity: 1; }
+.alert-success { border-color: rgba(22, 163, 74, 0.3); border-left-color: var(--vv-success); background: #F0FDF4; color: #14532D; }
+.alert-success > i:first-child { color: var(--vv-success); }
+.alert-danger, .alert-error { border-color: rgba(220, 38, 38, 0.3); border-left-color: var(--vv-danger); background: #FEF2F2; color: #7F1D1D; }
+.alert-danger > i:first-child, .alert-error > i:first-child { color: var(--vv-danger); }
+.alert-warning { border-color: rgba(245, 158, 11, 0.35); border-left-color: var(--vv-warning); background: #FFFBEB; color: #78350F; }
+.alert-warning > i:first-child { color: var(--vv-warning-text); }
+.alert-info, .alert-debug { border-color: rgba(37, 99, 235, 0.25); border-left-color: var(--vv-info); background: #EFF6FF; color: #1E3A8A; }
+.alert-info > i:first-child, .alert-debug > i:first-child { color: var(--vv-info); }
+.alert-heading { color: inherit; }
+.alert a { color: inherit; text-decoration: underline; }
+
+/* ==========================================================================
+   Modals — frosted glass dialog over a dimmed, slightly blurred page.
+   80% white keeps body text at very high contrast.
+   ========================================================================== */
+.modal-content {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  -webkit-backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  border: var(--gl-border);
+  border-radius: 22px;
+  color: var(--color-text);
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.22), var(--gl-highlight);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .modal-content { background: #FFFFFF; }
+}
+.modal.fade .modal-dialog { transition: transform 220ms var(--ease-out), opacity 220ms var(--ease-out); transform: translateY(12px); }
+.modal.show .modal-dialog { transform: none; }
+.modal-header, .modal-footer { border-color: rgba(15, 23, 42, 0.08); }
+.modal-title { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: var(--color-text); }
+.modal-backdrop { --bs-backdrop-bg: #0F172A; }
+.modal-backdrop.show { opacity: 0.42; backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.btn-close { opacity: 0.6; }
+.btn-close:hover { opacity: 1; }
+.modal-confirm-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+.modal-confirm-icon.is-danger { background: var(--color-danger-50); color: var(--vv-danger); }
+
+/* Pagination */
+.pagination { gap: 0.35rem; }
+.page-link {
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius-sm) !important;
+  min-width: 40px; min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0 !important;
+}
+.page-link:hover { background: var(--vv-surface-soft); color: var(--vv-primary); border-color: var(--vv-primary); }
+.page-link:focus { box-shadow: var(--shadow-glow-focus); }
+.page-item.active .page-link { background: var(--vv-primary); border-color: var(--vv-primary); color: #fff; }
+.page-item.disabled .page-link { background: var(--vv-surface-soft); color: #94A3B8; border-color: var(--color-border); }
+
+/* Status filter pills (booking history) */
+.status-filter-pills .nav-link {
+  border-radius: var(--radius-pill);
+  min-height: 40px;
+  padding: 0.45rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+.status-filter-pills .nav-link:hover { border-color: var(--vv-primary); color: var(--vv-primary); }
+.status-filter-pills .nav-link.active {
+  background: var(--vv-primary);
+  border-color: var(--vv-primary);
+  color: #fff;
+}
+
+/* ==========================================================================
+   Booking status timeline (components/booking_status_timeline.html)
+   Requested -> Accepted -> In Progress -> Completed. Purely visual; it reads
+   the existing status string and never writes anything.
+   ========================================================================== */
+.booking-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.booking-timeline .bt-step {
+  position: relative;
+  text-align: center;
+  padding: 0 0.25rem;
+}
+.booking-timeline .bt-step::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--color-border);
+}
+.booking-timeline .bt-step:first-child::before { display: none; }
+.booking-timeline .bt-dot {
+  position: relative;
+  z-index: 1;
+  width: 32px; height: 32px;
+  margin: 0 auto 0.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--vv-surface);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.booking-timeline .bt-label { font-size: 0.8125rem; font-weight: 500; color: var(--color-text-muted); line-height: 1.3; }
+.booking-timeline .bt-step.is-done::before,
+.booking-timeline .bt-step.is-current::before { background: var(--vv-primary); }
+.booking-timeline .bt-step.is-done .bt-dot { background: var(--vv-primary); border-color: var(--vv-primary); color: #fff; }
+.booking-timeline .bt-step.is-done .bt-label { color: var(--color-text); }
+.booking-timeline .bt-step.is-current .bt-dot { border-color: var(--vv-primary); color: var(--vv-primary-hover); background: var(--vv-primary-soft); box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12); }
+.booking-timeline .bt-step.is-current .bt-label { color: var(--vv-primary-hover); font-weight: 600; }
+.booking-timeline.is-cancelled .bt-step::before { background: var(--color-border); }
+.booking-timeline.is-cancelled .bt-dot { background: var(--vv-surface-soft); }
+.booking-timeline-cancelled {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: var(--space-3);
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-md);
+  background: var(--color-danger-50);
+  color: var(--vv-danger);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+@media (max-width: 480px) {
+  .booking-timeline .bt-label { font-size: 0.75rem; }
+  .booking-timeline .bt-dot { width: 28px; height: 28px; }
+  .booking-timeline .bt-step::before { top: 13px; }
+}
+
+/* Brand mark (logo tile) — shared by navbar, footer and auth layout */
+.brand-mark {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  background: var(--vv-primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}

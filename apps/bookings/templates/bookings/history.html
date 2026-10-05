@@ -1,0 +1,56 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags %}
+{% block title %}{% if user_role == 'provider' %}My Jobs{% else %}My Bookings{% endif %}{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="mb-4 reveal-on-scroll">
+        <span class="eyebrow">History</span>
+        <h1 class="mb-0">{% if user_role == 'provider' %}My Jobs{% else %}My Bookings{% endif %}</h1>
+    </div>
+
+    <ul class="nav nav-pills mb-4 flex-wrap gap-2 status-filter-pills">
+        <li class="nav-item"><a class="nav-link {% if not selected_status %}active{% endif %}" href="{% url 'bookings:history' %}">All</a></li>
+        {% for value, label in status_choices %}
+            <li class="nav-item"><a class="nav-link {% if selected_status == value %}active{% endif %}" href="?status={{ value }}">{{ label }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% if page_obj.object_list %}
+        <div class="dashboard-panel reveal-on-scroll">
+        <div class="table-responsive">
+            <table class="table table-app align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Category</th>
+                        {% if user_role == 'provider' %}<th>Customer</th>{% else %}<th>Provider</th>{% endif %}
+                        <th>Preferred Time</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for booking in page_obj.object_list %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.category.name }}</td>
+                        {% if user_role == 'provider' %}
+                            <td>{{ booking.customer.user.userprofile.full_name }}</td>
+                        {% else %}
+                            <td>{{ booking.provider.user.userprofile.full_name|default:"Not yet assigned" }}</td>
+                        {% endif %}
+                        <td>{{ booking.preferred_datetime|date:"d M Y, H:i" }}</td>
+                        <td>{{ booking.status|status_badge }}</td>
+                        <td><a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-sm btn-outline-primary">View</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+        {% include 'components/pagination.html' %}
+    {% else %}
+        {% include 'components/empty_state.html' with icon='bi-calendar-x' title='No bookings found' subtitle='No bookings found for this filter.' %}
+    {% endif %}
+</div>
+{% endblock %}

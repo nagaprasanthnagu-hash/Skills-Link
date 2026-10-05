@@ -1,0 +1,50 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070708">
+    <title>{% block title %}Welcome{% endblock %} | SkillLink</title>
+
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/inter/inter.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/sora/sora.css' %}">
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    {% block extra_css %}{% endblock %}
+    {# Red Glass presentation layer — loaded last so it wins over every component sheet. #}
+    <link rel="stylesheet" href="{% static 'css/redglass.css' %}">
+</head>
+<body class="d-flex align-items-center" style="min-height:100vh;">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <main class="container py-5" id="main-content" data-page-main>
+        <div class="text-center mb-4" data-hero data-hero-in>
+            <a href="{% url 'home' %}" class="navbar-brand d-inline-flex align-items-center gap-2 text-decoration-none" style="font-family:var(--font-display);font-weight:800;font-size:1.35rem;letter-spacing:-0.02em;color:var(--color-text);">
+                <span class="brand-mark" aria-hidden="true"><i class="bi bi-tools"></i></span> SkillLink
+            </a>
+        </div>
+
+        {% if messages %}
+        <div class="container mb-3">
+            {% include 'components/alerts.html' %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

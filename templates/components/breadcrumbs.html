@@ -1,0 +1,12 @@
+{% comment %}
+Usage: {% include 'components/breadcrumbs.html' with parent_label='Services' parent_url=categories_url current_label=category.name %}
+{% endcomment %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}"><i class="bi bi-house"></i></a></li>
+        {% if parent_label and parent_url %}
+            <li class="breadcrumb-item"><a href="{{ parent_url }}">{{ parent_label }}</a></li>
+        {% endif %}
+        <li class="breadcrumb-item active" aria-current="page">{{ current_label }}</li>
+    </ol>
+</nav>

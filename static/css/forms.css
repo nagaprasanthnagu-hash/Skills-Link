@@ -1,0 +1,143 @@
+/* ==========================================================================
+   FORMS — solid inputs, labels above, clear focus + validation states.
+   Field names, ids and widgets are never touched; this is presentation only.
+   ========================================================================== */
+.form-label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  margin-bottom: 0.4rem;
+}
+
+.form-control, .form-select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.85rem;
+  min-height: 44px;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  background-color: var(--vv-surface);
+  color: var(--color-text);
+  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+}
+.form-control::placeholder { color: #94A3B8; }
+.form-control:hover:not(:disabled):not([readonly]), .form-select:hover:not(:disabled) { border-color: #CBD5E1; }
+.form-control:focus, .form-select:focus {
+  border-color: var(--vv-primary);
+  box-shadow: var(--shadow-glow-focus);
+  background-color: var(--vv-surface);
+  color: var(--color-text);
+}
+.form-select { color-scheme: light; }
+
+/* Disabled / readonly */
+.form-control:disabled, .form-control[readonly],
+.form-select:disabled {
+  background-color: var(--vv-surface-soft);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+  opacity: 1;
+}
+.form-check-input:disabled { background-color: var(--vv-surface-soft); border-color: var(--color-border); opacity: 1; }
+.form-check-input:disabled ~ .form-check-label { color: var(--color-text-muted); cursor: not-allowed; }
+
+textarea.form-control { min-height: 110px; resize: vertical; }
+
+.form-check-input {
+  width: 1.15em; height: 1.15em;
+  background-color: var(--vv-surface);
+  border: 1px solid #94A3B8;
+}
+.form-check-input:checked {
+  background-color: var(--vv-primary);
+  border-color: var(--vv-primary);
+}
+.form-check-input:focus {
+  border-color: var(--vv-primary);
+  box-shadow: var(--shadow-glow-focus);
+}
+.form-check-label { color: var(--color-text); }
+
+.form-text { color: var(--color-text-muted); font-size: 0.8125rem; }
+
+.invalid-feedback, .text-danger.small {
+  font-size: 0.8125rem;
+  color: var(--vv-danger);
+}
+.valid-feedback, .text-success.small { color: var(--vv-success); }
+
+/* Bootstrap validation states + server-side errors. The Django error lines
+   rendered by components/form_fields.html are .text-danger.small; :has()
+   lets the neighbouring input pick up the red border where supported. */
+.was-validated .form-control:invalid,
+.form-control.is-invalid,
+.form-select.is-invalid,
+.mb-3:has(> .text-danger.small) > .form-control,
+.mb-3:has(> .text-danger.small) > .form-select,
+.mb-3:has(> .text-danger.small) .password-field .form-control {
+  border-color: var(--vv-danger);
+}
+.was-validated .form-control:valid,
+.form-control.is-valid {
+  border-color: var(--vv-success);
+}
+
+.auth-card {
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Radio group rendered as selectable pills */
+.choice-pills .form-check {
+  display: inline-block;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0;
+}
+.choice-pills .form-check-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px; height: 1px;
+}
+.choice-pills .form-check-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  background: var(--vv-surface);
+  transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+.choice-pills .form-check-label:hover { border-color: var(--vv-primary); }
+.choice-pills .form-check-input:checked + .form-check-label {
+  background: var(--vv-primary-soft);
+  border-color: var(--vv-primary);
+  color: var(--vv-primary-hover);
+  font-weight: 600;
+}
+.choice-pills .form-check-input:focus-visible + .form-check-label {
+  outline: 2px solid var(--vv-primary);
+  outline-offset: 2px;
+}
+
+/* Search field with leading icon */
+.search-bar { position: relative; }
+.search-bar input {
+  padding-left: 2.75rem;
+  min-height: 48px;
+  border-radius: var(--radius-btn);
+}
+.search-bar i {
+  position: absolute;
+  left: 1rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}

@@ -1,0 +1,225 @@
+/* ==========================================================================
+   LAYOUT — app shell, dashboard grid, hero + marketing-strip patterns
+   ========================================================================== */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main { flex: 1 0 auto; }
+
+/* Dashboard shell: fixed sidebar + fluid content */
+.dashboard-shell {
+  display: flex;
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+.dashboard-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-6);
+}
+@media (max-width: 992px) {
+  .dashboard-content { padding: var(--space-4); }
+}
+
+/* Legacy decorative blobs — markup removed from the layouts; hidden in case
+   any page template still renders them. */
+.bg-shapes { display: none; }
+
+/* Section dividers */
+.section-divider {
+  height: 1px;
+  background: var(--color-border);
+  border: none;
+  margin: var(--space-7) 0;
+}
+
+/* Sticky helper */
+.sticky-top-offset { top: calc(var(--navbar-height) + var(--space-4)); }
+
+/* ==========================================================================
+   HERO — two-column copy + search, visual on the right
+   ========================================================================== */
+.hero-section { padding-block: var(--space-8); }
+.hero-section .lead { color: var(--color-text-muted); }
+
+.hero-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.85rem 0.35rem 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.value-prop-icon {
+  width: 56px; height: 56px;
+  font-size: 1.4rem;
+  margin: 0 auto var(--space-3);
+}
+
+/* Hero visual frame (SVG or photo) */
+.hero-image-frame {
+  position: relative;
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 4 / 3;
+  background: var(--vv-primary-soft);
+}
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hero search panel — frosted glass. Inside the photo hero (.hero-v2) the
+   tokens are re-mapped to dark glass, handled just below. */
+.hero-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 520px;
+  min-height: 58px;
+  padding: 0.35rem 0.5rem 0.35rem 1.1rem;
+  background: var(--gl-bg-strong);
+  backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  -webkit-backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  border: var(--gl-border);
+  border-radius: 999px;
+  box-shadow: var(--gl-shadow), var(--gl-highlight);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hero-search-bar { background: #FFFFFF; }
+}
+.hero-search-bar i { color: var(--color-text-muted); }
+.hero-search-bar input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  padding: 0.5rem 0;
+}
+.hero-search-bar input:focus { outline: none; box-shadow: none; }
+.hero-search-bar:focus-within { border-color: rgba(15, 118, 110, 0.55); box-shadow: var(--shadow-glow-focus), var(--gl-shadow); }
+.hero-search-bar input::placeholder { color: #64748B; }
+
+/* Photo hero: the panel holding the headline + search is dark frosted glass
+   (home-hero.css supplies the dark tokens; the blur is applied here). The
+   search bar sits inside the panel on a lighter, readable glass layer. */
+.hero-v2 .hero-v2-panel {
+  backdrop-filter: blur(var(--gl-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--gl-blur)) saturate(150%);
+  border-color: rgba(255, 255, 255, 0.40);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.hero-v2 .hero-search-bar {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.hero-v2 .hero-search-bar i { color: rgba(255, 255, 255, 0.85); }
+.hero-v2 .hero-search-bar input::placeholder { color: rgba(255, 255, 255, 0.78); }
+/* Light-on-dark accent inside hero/CTA (teal is too dark on a photo) */
+.hero-v2, .cta-v2 { --color-glow: #5EEAD4; }
+.hero-v2 a, .cta-v2 a { --color-primary: #5EEAD4; }
+
+/* Homepage stats / trust strip */
+.stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: var(--space-5) var(--space-6);
+  background: var(--gl-bg);
+  backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  -webkit-backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  border: var(--gl-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--gl-shadow), var(--gl-highlight);
+  margin: var(--space-6) 0 var(--space-8);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .stats-bar { background: #FFFFFF; }
+}
+.stat-item { display: flex; align-items: center; gap: 12px; }
+.stat-item i { font-size: 1.3rem; color: var(--vv-primary); }
+.stat-item b { display: block; font-family: var(--font-display); font-size: 1.15rem; color: var(--color-text); line-height: 1.1; }
+.stat-item span { font-size: 0.8125rem; color: var(--color-text-muted); }
+@media (max-width: 767px) {
+  .stats-bar { justify-content: center; }
+}
+
+.stats-bar-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: initial;
+  min-height: 70px;
+}
+.stats-bar-4 .stat-item {
+  justify-content: center;
+  padding-inline: var(--space-3);
+  border-right: 1px solid rgba(15, 23, 42, 0.08);
+}
+.stats-bar-4 .stat-item:last-child { border-right: none; }
+@media (max-width: 767px) {
+  .stats-bar-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4) var(--space-2);
+  }
+  .stats-bar-4 .stat-item {
+    border-right: none;
+    justify-content: flex-start;
+  }
+}
+
+/* How It Works — numbered steps */
+.how-it-works-row { position: relative; }
+.how-it-works-step { padding: var(--space-3); }
+.how-it-works-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--vv-primary);
+  margin-top: var(--space-2);
+}
+.how-it-works-arrow {
+  position: absolute;
+  top: 38px;
+  right: -10px;
+  font-size: 1.1rem;
+  color: #CBD5E1;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   GLASS UTILITIES — for selected CTA / highlight panels only.
+   Use sparingly; long-form content, forms and tables stay on solid cards.
+   .glass-panel is the default (62% white); .glass-panel-strong is the safer
+   choice when text sits over a busy background.
+   ========================================================================== */
+.glass-panel,
+.glass-panel-strong {
+  background: var(--gl-bg);
+  backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  -webkit-backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  border: var(--gl-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--gl-shadow), var(--gl-highlight);
+  color: var(--color-text);
+}
+.glass-panel-strong { background: var(--gl-bg-strong); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-panel, .glass-panel-strong { background: #FFFFFF; }
+}

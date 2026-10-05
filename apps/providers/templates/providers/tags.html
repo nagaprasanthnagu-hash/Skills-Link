@@ -1,0 +1,69 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Specialized Services{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/provider.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container section provider-page">
+    <div class="page-head reveal-on-scroll">
+        <div>
+            <div class="greeting-eyebrow text-muted-bookinghub">Provider Dashboard</div>
+            <h1>Specialized Services</h1>
+        </div>
+        <a href="{% url 'providers:dashboard' %}" class="btn btn-light"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+    </div>
+
+    <div class="note-card reveal-on-scroll">
+        <i class="bi bi-info-circle" aria-hidden="true"></i>
+        <p>
+            Add the specific work you can do as service tags (e.g. <code>#fan</code>, <code>#ceilingfan</code>, <code>#fanrepair</code>).
+            Customers searching for those exact terms — with or without the <code>#</code>, in any case — will find you.
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card form-card reveal-on-scroll">
+                <div class="showcase-icon mb-3"><i class="bi bi-tags" aria-hidden="true"></i></div>
+                <h2 class="h5 mb-3">Add Service Tag</h2>
+                <form method="post" data-loading-form>
+                    {% csrf_token %}
+                    {% include 'components/form_fields.html' with form=form %}
+                    <button type="submit" class="btn btn-primary w-100 mt-2"><i class="bi bi-plus-lg" aria-hidden="true"></i> Add Service Tag</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="dashboard-panel reveal-on-scroll">
+                <div class="panel-header"><h2 class="h5">Your Tags</h2></div>
+                {% if tags %}
+                    <div class="table-responsive">
+                        <table class="table table-app table-stack align-middle mb-0">
+                            <thead><tr><th>Tag</th><th>Added</th><th class="text-end">Actions</th></tr></thead>
+                            <tbody>
+                            {% for tag in tags %}
+                                <tr>
+                                    <td data-label="Tag"><span class="tag-chip">{{ tag.display }}</span></td>
+                                    <td data-label="Added" class="small text-muted-bookinghub">{{ tag.created_at|date:"d M Y" }}</td>
+                                    <td class="text-end cell-actions">
+                                        <a href="{% url 'providers:tag_edit' tag.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil" aria-hidden="true"></i> Edit</a>
+                                        <form method="post" action="{% url 'providers:tag_delete' tag.pk %}" class="d-inline" onsubmit="return confirm('Remove {{ tag.display }}?');">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash" aria-hidden="true"></i> Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    {% include 'components/empty_state.html' with icon='bi-tags' title='No service tags yet' subtitle='Add your first tag so customers can find the specific work you do.' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

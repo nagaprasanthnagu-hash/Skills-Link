@@ -1,0 +1,153 @@
+/* ==========================================================================
+   BUTTONS — solid teal primary, light secondary, red only for destructive.
+   44px minimum height; clear hover / focus / disabled / loading states.
+   Secondary buttons read --glass-2-bg and --color-text so they stay readable
+   on the hero photo, where home-hero.css re-maps those tokens.
+   ========================================================================== */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  border-radius: var(--radius-btn);
+  padding: 0.6rem 1.15rem;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: transform var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard),
+              background-color var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard);
+}
+.btn:active { transform: translateY(0) scale(0.98); }
+.btn:focus-visible { outline: 2px solid var(--vv-primary); outline-offset: 2px; box-shadow: none; }
+
+/* Disabled — flat and clearly inert */
+.btn:disabled, .btn.disabled {
+  opacity: 0.55;
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading — added by app.js on form submit; spinner is prepended into the button */
+.btn.is-loading { cursor: progress; }
+.btn .loading-spinner { width: 16px; height: 16px; border-width: 2px; margin-right: 0 !important; }
+.btn-primary .loading-spinner { border-color: rgba(255, 255, 255, 0.4); border-top-color: #fff; }
+
+/* Primary */
+.btn-primary {
+  background-color: var(--vv-primary);
+  border: 1px solid var(--vv-primary);
+  color: #fff;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--vv-primary-hover);
+  border-color: var(--vv-primary-hover);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow-primary);
+}
+.btn-primary:active, .btn-primary.active { background-color: var(--vv-primary-hover); border-color: var(--vv-primary-hover); color: #fff; }
+.btn-primary:disabled, .btn-primary.disabled { background-color: var(--vv-primary); border-color: var(--vv-primary); color: #fff; }
+
+/* Secondary — white/light with a subtle border */
+.btn-outline-primary,
+.btn-secondary,
+.btn-light {
+  background-color: var(--glass-2-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.btn-outline-primary:hover, .btn-outline-primary:focus,
+.btn-secondary:hover, .btn-secondary:focus,
+.btn-light:hover, .btn-light:focus,
+.btn-outline-primary:active, .btn-secondary:active, .btn-light:active {
+  background-color: var(--color-primary-50);
+  border-color: var(--vv-primary);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+/* Success / destructive */
+.btn-success {
+  background-color: var(--vv-success);
+  border: 1px solid var(--vv-success);
+  color: #fff;
+}
+.btn-success:hover, .btn-success:focus { background-color: #15803D; border-color: #15803D; color: #fff; transform: translateY(-1px); }
+
+.btn-danger {
+  background-color: var(--vv-danger);
+  border: 1px solid var(--vv-danger);
+  color: #fff;
+}
+.btn-danger:hover, .btn-danger:focus { background-color: #B91C1C; border-color: #B91C1C; color: #fff; transform: translateY(-1px); }
+
+.btn-outline-danger {
+  background: transparent;
+  border: 1px solid var(--vv-danger);
+  color: var(--vv-danger);
+}
+.btn-outline-danger:hover, .btn-outline-danger:focus {
+  background: var(--vv-danger);
+  border-color: var(--vv-danger);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-pill { border-radius: var(--radius-pill); }
+
+.btn-lg { padding: 0.8rem 1.5rem; min-height: 52px; font-size: 1rem; }
+.btn-sm { padding: 0.4rem 0.9rem; min-height: 38px; font-size: 0.875rem; }
+@media (pointer: coarse) {
+  .btn-sm { min-height: 44px; }
+}
+
+.btn i { margin-right: 0; }
+
+/* Icon button */
+.btn-icon {
+  width: 44px; height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-btn);
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+}
+.btn-icon:hover { color: var(--vv-primary); border-color: var(--vv-primary); background: var(--color-primary-50); }
+.btn-icon i { margin: 0; }
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-text-muted);
+}
+.btn-ghost:hover { color: var(--vv-primary); background: var(--color-primary-50); }
+
+/* Chip */
+.btn-chip {
+  border-radius: var(--radius-pill);
+  padding: 0.45rem 1rem;
+  min-height: 40px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+.btn-chip:hover { border-color: var(--vv-primary); color: var(--vv-primary); }
+.btn-chip.is-active, .btn-chip.active {
+  background: var(--vv-primary);
+  border-color: var(--vv-primary);
+  color: #fff;
+}

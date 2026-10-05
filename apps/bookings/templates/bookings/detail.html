@@ -1,0 +1,93 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags static %}
+{% block title %}Booking #{{ booking.id }}{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card card-float p-4 p-md-5 mb-4 animate-fade-up">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h1 class="h4 mb-0">Booking #{{ booking.id }}</h1>
+                    <span data-booking-status-badge data-booking-id="{{ booking.id }}">{{ booking.status|status_badge }}</span>
+                </div>
+
+                <h2 class="h6 text-uppercase text-muted-bookinghub mb-3">Booking Information</h2>
+                <dl class="row mb-0 detail-info-list">
+                    <dt class="col-12 col-sm-4 text-muted-bookinghub fw-medium">Category</dt>
+                    <dd class="col-12 col-sm-8">{{ booking.category.name }}</dd>
+
+                    <dt class="col-12 col-sm-4 text-muted-bookinghub fw-medium">Preferred Date/Time</dt>
+                    <dd class="col-12 col-sm-8">{{ booking.preferred_datetime|date:"d M Y, H:i" }}</dd>
+
+                    <dt class="col-12 col-sm-4 text-muted-bookinghub fw-medium">Address</dt>
+                    <dd class="col-12 col-sm-8">{{ booking.address }}</dd>
+
+                    <dt class="col-12 col-sm-4 text-muted-bookinghub fw-medium">Description</dt>
+                    <dd class="col-12 col-sm-8">{{ booking.description }}</dd>
+
+                    <dt class="col-12 col-sm-4 text-muted-bookinghub fw-medium">Customer</dt>
+                    <dd class="col-12 col-sm-8">{{ booking.customer.user.userprofile.full_name }}</dd>
+
+                    <dt class="col-12 col-sm-4 text-muted-bookinghub fw-medium">Provider</dt>
+                    <dd class="col-12 col-sm-8">{{ booking.provider.user.userprofile.full_name|default:"Not yet assigned" }}</dd>
+
+                    <dt class="col-12 col-sm-4 text-muted-bookinghub fw-medium">Requested On</dt>
+                    <dd class="col-12 col-sm-8">{{ booking.created_at|date:"d M Y, H:i" }}</dd>
+                </dl>
+
+                <div class="d-flex gap-2 flex-wrap mt-3">
+                    {% if can_accept %}
+                        <form method="post" action="{% url 'bookings:accept' booking.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Accept Booking</button>
+                        </form>
+                    {% endif %}
+
+                    {% if can_advance %}
+                        <form method="post" action="{% url 'bookings:status_update' booking.pk %}">
+                            {% csrf_token %}
+                            {% if booking.status == 'accepted' %}
+                                <input type="hidden" name="new_status" value="in_progress">
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-right-circle"></i> Start Job (Mark In Progress)</button>
+                            {% elif booking.status == 'in_progress' %}
+                                <input type="hidden" name="new_status" value="completed">
+                                <button type="submit" class="btn btn-success"><i class="bi bi-check2-all"></i> Mark Completed</button>
+                            {% endif %}
+                        </form>
+                    {% endif %}
+
+                    {% if can_cancel %}
+                        <form method="post" action="{% url 'bookings:cancel' booking.pk %}" data-confirm="Are you sure you want to cancel this booking?">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i> Cancel Booking</button>
+                        </form>
+                    {% endif %}
+
+                    {% if can_review %}
+                        <a href="{% url 'reviews:create' booking.pk %}" class="btn btn-outline-primary"><i class="bi bi-star"></i> Leave a Review</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="dashboard-panel animate-fade-up">
+                <h2 class="h6 text-uppercase text-muted-bookinghub mb-3">Status Timeline</h2>
+                <ul class="status-timeline">
+                    {% for log in status_logs %}
+                        <li>
+                            <div>{{ log.new_status|status_badge }}</div>
+                            <div class="small text-muted-bookinghub mt-1">{{ log.changed_at|date:"d M Y, H:i" }}</div>
+                        </li>
+                    {% empty %}
+                        <li class="text-muted-bookinghub small">No status changes yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/booking.js' %}"></script>
+{% endblock %}

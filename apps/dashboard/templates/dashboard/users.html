@@ -1,0 +1,52 @@
+{% extends 'layouts/admin_base.html' %}
+{% block title %}Manage Users{% endblock %}
+{% block dashboard_content %}
+<div class="admin-head reveal-on-scroll">
+    <div>
+        <span class="eyebrow">Admin</span>
+        <h1>Manage Users</h1>
+    </div>
+    {% if page_obj.object_list %}<span class="admin-count">{{ page_obj.paginator.count }} total</span>{% endif %}
+</div>
+{% if page_obj.object_list %}
+    <div class="dashboard-panel reveal-on-scroll">
+    <div class="table-responsive">
+        <table class="table table-app table-compact table-stack align-middle mb-0">
+            <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th class="text-end">Actions</th></tr></thead>
+            <tbody>
+            {% for profile in page_obj.object_list %}
+                <tr>
+                    <td class="fw-medium" data-label="Name">
+                        <span class="person-cell"><span class="avatar-chip" aria-hidden="true">{{ profile.full_name|first|upper }}</span><span>{{ profile.full_name }}</span></span>
+                    </td>
+                    <td data-label="Username">
+                        <span class="user-cell">{{ profile.user.username }} <span class="text-muted-bookinghub small">({{ profile.user.email }})</span></span>
+                    </td>
+                    <td data-label="Role"><span class="role-pill">{{ profile.get_role_display }}</span></td>
+                    <td data-label="Status">
+                        {% if profile.user.is_active %}
+                            <span class="badge text-bg-success">Active</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end cell-actions">
+                        <form method="post" class="d-inline" data-confirm="Are you sure you want to {% if profile.user.is_active %}deactivate{% else %}activate{% endif %} this account?">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ profile.user.id }}">
+                            <button type="submit" class="btn btn-sm {% if profile.user.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %}">
+                                {% if profile.user.is_active %}Deactivate{% else %}Activate{% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+    {% include 'components/pagination.html' %}
+{% else %}
+    {% include 'components/empty_state.html' with icon='bi-people' title='No users found' %}
+{% endif %}
+{% endblock %}

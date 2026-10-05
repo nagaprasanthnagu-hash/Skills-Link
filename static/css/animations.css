@@ -1,0 +1,49 @@
+/* ==========================================================================
+   ANIMATIONS — subtle only. Fade-up reveal (driven by an IntersectionObserver
+   in app.js), short entrance keyframes, and a reduced-motion fallback.
+   No continuous / looping motion except the loading spinner.
+   ========================================================================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-up { animation: fadeUp var(--duration-slow) var(--ease-out) both; }
+.animate-fade-in { animation: fadeIn var(--duration-slow) var(--ease-out) both; }
+.animate-scale-in { animation: scaleIn var(--duration-base) var(--ease-out) both; }
+
+/* Scroll reveal.
+   app.js adds .reveal-ready (hidden, shifted) to every .reveal-on-scroll
+   element and every direct child of .stagger, then .is-revealed when it
+   enters the viewport, then removes both classes so normal hover effects
+   (e.g. .card-float) work afterwards. Without JS nothing is ever hidden. */
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 480ms var(--ease-out), transform 480ms var(--ease-out);
+}
+.reveal-ready.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+.stagger > .reveal-ready:nth-child(2) { transition-delay: 60ms; }
+.stagger > .reveal-ready:nth-child(3) { transition-delay: 120ms; }
+.stagger > .reveal-ready:nth-child(4) { transition-delay: 180ms; }
+.stagger > .reveal-ready:nth-child(5) { transition-delay: 240ms; }
+.stagger > .reveal-ready:nth-child(6) { transition-delay: 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up, .animate-fade-in, .animate-scale-in { animation: none; }
+  .reveal-ready, .reveal-ready.is-revealed { opacity: 1; transform: none; transition: none; }
+}

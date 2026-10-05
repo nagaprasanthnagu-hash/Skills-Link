@@ -1,0 +1,11 @@
+{% comment %}
+Category short caption — presentation-only, template-side lookup by
+category NAME substring (no new model field, no Python code, no
+backend change). Used in place of the longer real category.description
+field specifically on the compact Popular Services cards, matching the
+approved reference layout's short-caption style.
+
+Any category not matched here (e.g. AC Repair, or a category added
+later by an admin) falls back to a short caption derived from its own
+real description field, truncated — never fabricated text.
+{% endcomment %}{% if 'plumb' in category.name|lower %}Repair &amp; Installation{% elif 'electric' in category.name|lower %}Wiring &amp; Repairs{% elif 'clean' in category.name|lower %}Home &amp; Office{% elif 'paint' in category.name|lower %}Wall Painting{% elif 'carpen' in category.name|lower %}Woodwork{% elif 'appliance' in category.name|lower %}AC, TV, Fridge{% else %}{{ category.description|truncatewords:3 }}{% endif %}

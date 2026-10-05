@@ -1,0 +1,175 @@
+/* ==========================================================================
+   DESIGN TOKENS — SkillsLink Red Glass (dark, cinematic, red accent)
+   Single source of truth. Legacy --vv-* / --color-* / --glass-* names are
+   kept and remapped so every existing stylesheet and template keeps working.
+   Hierarchy: dark background -> ambient glow -> glass container -> glass
+   card -> solid high-contrast CTA. Red is an ACCENT, never a page fill.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  /* -- Red Glass core tokens -------------------------------------------- */
+  --bg-main: #070708;
+  --bg-secondary: #0D0D10;
+  --bg-tertiary: #121217;
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-bg-strong: rgba(255, 255, 255, 0.12);
+  --glass-bg-soft: rgba(255, 255, 255, 0.04);
+  --glass-border-color: rgba(255, 255, 255, 0.12);
+  --glass-border-hover: rgba(255, 59, 59, 0.45);
+  --glass-blur: 22px;
+  --glass-shadow: 0 18px 50px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --text-primary: #F5F5F7;
+  --text-secondary: #A1A1AA;
+  --accent-red: #FF2D2D;
+  --accent-red-bright: #FF3B3B;
+  --accent-red-dark: #E50914;
+  --accent-red-deep: #7F1111;
+  --accent-red-deeper: #5C0B0B;
+  --accent-red-soft: rgba(255, 45, 45, 0.14);
+  --accent-red-glow: 0 0 0 3px rgba(255, 45, 45, 0.28);
+
+  /* -- Brand palette (legacy names, now dark) ----------------------------- */
+  --vv-page-bg: var(--bg-main);
+  --vv-surface: #14141A;
+  --vv-surface-soft: #1A1A21;
+  --vv-text: var(--text-primary);
+  --vv-text-muted: var(--text-secondary);
+  --vv-border: rgba(255, 255, 255, 0.12);
+  --vv-primary: var(--accent-red-dark);
+  --vv-primary-hover: var(--accent-red);
+  --vv-primary-soft: var(--accent-red-soft);
+  --vv-success: #34D399;
+  --vv-warning: #FBBF24;
+  --vv-danger: #FF5C5C;
+  --vv-info: #60A5FA;
+  --vv-shadow: var(--glass-shadow);
+  --vv-shadow-hover: 0 22px 60px rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 45, 45, 0.10);
+  --vv-warning-text: #FBBF24;
+  --vv-navy: var(--bg-main);
+
+  --color-bg: var(--bg-main);
+  --color-surface: var(--vv-surface);
+  --color-surface-raised: var(--vv-surface-soft);
+  --color-dark: var(--bg-main);
+  --color-dark-surface: var(--bg-secondary);
+  --color-glass-rgb: 255, 255, 255;
+
+  --color-primary: var(--accent-red-dark);
+  --color-primary-deep: var(--accent-red-deep);
+  --color-primary-600: var(--accent-red-dark);
+  --color-primary-700: var(--accent-red-deep);
+  --color-primary-50: rgba(255, 45, 45, 0.08);
+  --color-primary-100: rgba(255, 45, 45, 0.16);
+  --color-glow: var(--accent-red-bright);
+  --color-purple: #C084FC;
+  --color-purple-50: rgba(192, 132, 252, 0.12);
+  --color-cyan: var(--accent-red-bright);
+  --color-teal: #34D399;
+  --color-teal-50: rgba(52, 211, 153, 0.12);
+
+  --color-text: var(--text-primary);
+  --color-text-muted: var(--text-secondary);
+  --color-text-subtle: #8B8B95;
+  --color-text-inverse: #FFFFFF;
+
+  --color-border: var(--glass-border-color);
+  --color-border-soft: rgba(255, 255, 255, 0.07);
+
+  --color-success: var(--vv-success);
+  --color-success-50: rgba(52, 211, 153, 0.12);
+  --color-warning: var(--vv-warning);
+  --color-warning-50: rgba(251, 191, 36, 0.14);
+  --color-danger: var(--vv-danger);
+  --color-danger-50: rgba(255, 92, 92, 0.12);
+  --color-info: var(--vv-info);
+  --color-info-50: rgba(96, 165, 250, 0.12);
+  --color-rating-gold: #FBBF24;
+
+  --gradient-brand: linear-gradient(135deg, #FF3B3B 0%, #E50914 100%);
+  --gradient-brand-soft: linear-gradient(0deg, rgba(255,45,45,.14), rgba(255,45,45,.14));
+  --gradient-dark: linear-gradient(0deg, #0D0D10, #0D0D10);
+  --gradient-glow: none;
+  --gradient-card-border: none;
+
+  /* -- Legacy glass tiers now REAL glass ---------------------------------- */
+  --glass-1-bg: var(--glass-bg);
+  --glass-1-blur: var(--glass-blur);
+  --glass-2-bg: var(--glass-bg);
+  --glass-2-blur: var(--glass-blur);
+  --glass-3-bg: var(--glass-bg-strong);
+  --glass-3-blur: var(--glass-blur);
+  --glass-4-bg: var(--glass-bg-strong);
+  --glass-4-blur: var(--glass-blur);
+  --glass-saturate: saturate(140%);
+  --glass-border: 1px solid var(--glass-border-color);
+  --glass-inner-highlight: var(--glass-highlight);
+  --glass-fallback-bg: #16161C;
+  --color-surface-glass: var(--glass-bg);
+
+  --gl-bg-light: rgba(255, 255, 255, 0.05);
+  --gl-bg: var(--glass-bg);
+  --gl-bg-strong: var(--glass-bg-strong);
+  --gl-blur: var(--glass-blur);
+  --gl-saturate: saturate(140%);
+  --gl-border: 1px solid var(--glass-border-color);
+  --gl-shadow: var(--glass-shadow);
+  --gl-highlight: var(--glass-highlight);
+
+  /* -- Spacing: 8px scale ---------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* -- Radii ---------------------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-btn: 12px;
+  --radius-card: 20px;
+  --radius-lg: 20px;
+  --radius-panel: 24px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* -- Shadows -------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.5);
+  --shadow-sm: 0 2px 6px rgba(0,0,0,.45);
+  --shadow-md: var(--vv-shadow);
+  --shadow-lg: var(--vv-shadow-hover);
+  --shadow-glass: var(--glass-shadow);
+  --shadow-glow-primary: 0 6px 22px rgba(229,9,20,.35);
+  --shadow-glow-success: 0 4px 16px rgba(52,211,153,.25);
+  --shadow-glow-danger: 0 4px 16px rgba(255,92,92,.28);
+  --shadow-glow-focus: var(--accent-red-glow);
+
+  /* -- Motion ----------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-entrance: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);   /* spring overshoot removed */
+
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-step: 400ms;
+  --duration-modal: 250ms;
+  --duration-float: 3600ms;
+  --duration-skeleton: 1200ms;
+
+  /* -- Layout --------------------------------------------------------------- */
+  --sidebar-width: 264px;
+  --navbar-height: 92px;   /* floating pill (68px) + page margin */
+  --container-max: 1280px;
+
+  /* -- Type ------------------------------------------------------------------ */
+  --font-display: 'Sora', 'Inter', system-ui, sans-serif;   /* headings, hero, dashboard numbers */
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;  /* everything else */
+}

@@ -1,0 +1,96 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags static %}
+{% block title %}My Dashboard{% endblock %}
+{% block content %}
+{% url 'bookings:create' as booking_create_url %}
+<div class="container section">
+    <div class="dashboard-header reveal-on-scroll">
+        <div>
+            <div class="greeting-eyebrow">Welcome back</div>
+            <h1 class="mb-0">{{ request.user.userprofile.full_name }}</h1>
+        </div>
+        <a href="{% url 'bookings:create' %}" class="btn btn-primary"><i class="bi bi-calendar-plus"></i> Book a Service</a>
+    </div>
+
+    <div class="stat-grid stagger">
+        {% include 'components/cards.html' with variant='stat' icon='bi-calendar-check' value=total_bookings label='Total Bookings' %}
+        {% include 'components/cards.html' with variant='stat' icon='bi-hourglass-split' value=active_bookings label='Active Bookings' accent='warning' %}
+        {% include 'components/cards.html' with variant='stat' icon='bi-check2-circle' value=completed_bookings label='Completed' accent='success' %}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="dashboard-panel reveal-on-scroll">
+                <div class="panel-header">
+                    <h2 class="h5">Recent Bookings</h2>
+                    <a href="{% url 'bookings:history' %}" class="small">View all</a>
+                </div>
+                {% if recent_bookings %}
+                    <div class="table-responsive">
+                        <table class="table table-app align-middle mb-0">
+                            <thead><tr><th>#</th><th>Category</th><th>Preferred Time</th><th>Status</th><th></th></tr></thead>
+                            <tbody>
+                            {% for booking in recent_bookings %}
+                                <tr>
+                                    <td>{{ booking.id }}</td>
+                                    <td>{{ booking.category.name }}</td>
+                                    <td>{{ booking.preferred_datetime|date:"d M Y, H:i" }}</td>
+                                    <td>{{ booking.status|status_badge }}</td>
+                                    <td><a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-sm btn-outline-primary">View</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    {% include 'components/empty_state.html' with icon='bi-calendar-x' title="No bookings yet" subtitle="You haven't made any bookings yet." cta_url=booking_create_url cta_label='Book Your First Service' %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="dashboard-panel reveal-on-scroll">
+                <h2 class="h5 mb-3">Popular Categories</h2>
+                <div class="list-group list-group-flush">
+                    {% for category in categories %}
+                        <a href="{% url 'categories:detail' category.pk %}" class="list-group-item list-group-item-action border-0 px-0">
+                            <i class="bi bi-tools text-primary me-2"></i> {{ category.name }}
+                        </a>
+                    {% empty %}
+                        <p class="text-muted-bookinghub small mb-0">No categories available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if completed_services %}
+    <div class="dashboard-panel reveal-on-scroll">
+        <div class="panel-header"><h2 class="h5">Completed Services</h2></div>
+        <div class="table-responsive">
+            <table class="table table-app align-middle mb-0">
+                <thead><tr><th>#</th><th>Category</th><th>Provider</th><th></th></tr></thead>
+                <tbody>
+                {% for booking in completed_services %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td>{{ booking.category.name }}</td>
+                        <td>{{ booking.provider.user.userprofile.full_name|default:"Not yet assigned" }}</td>
+                        <td>
+                            {% if booking.has_review %}
+                                <a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-sm btn-ghost"><i class="bi bi-check2"></i> Reviewed</a>
+                            {% else %}
+                                <a href="{% url 'reviews:create' booking.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-star"></i> Give Rating &amp; Review</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

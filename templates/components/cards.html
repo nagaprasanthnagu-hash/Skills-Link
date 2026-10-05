@@ -1,0 +1,18 @@
+{% comment %}
+Reusable card partials. Usage:
+
+  {% include 'components/cards.html' with variant='stat' icon='bi-calendar-check' value=total_bookings label='Total Bookings' %}
+  {% include 'components/cards.html' with variant='stat' icon='bi-check2-circle' value=completed_count label='Completed' accent='success' %}
+
+variant: 'stat' (KPI number card) — the only variant driven purely by params;
+         other card styles (showcase, glass, tilt) are applied directly via
+         utility classes (.showcase-card, .card-glass, .card-tilt) in each
+         page template since their content varies too much for one partial.
+{% endcomment %}
+{% if variant == 'stat' %}
+<div class="stat-card card-float{% if accent %} accent-{{ accent }}{% endif %}">
+    {% if icon %}<div class="stat-icon"><i class="bi {{ icon }}"></i></div>{% endif %}
+    <div class="stat-number" data-counter="{{ value }}">{{ value }}</div>
+    <div class="stat-label">{{ label }}</div>
+</div>
+{% endif %}

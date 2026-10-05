@@ -1,0 +1,106 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Upload Work Photos{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/provider.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container section provider-page">
+    <div class="page-head reveal-on-scroll">
+        <div>
+            <span class="eyebrow">Completed Work</span>
+            <h1>Upload Work Photos</h1>
+            <p class="page-sub">Booking #{{ booking.id }} — {{ booking.category.name }} for {{ booking.customer.user.userprofile.full_name }}</p>
+        </div>
+        <a href="{% url 'providers:dashboard' %}" class="btn btn-light"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card form-card">
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">{% for e in form.non_field_errors %}<div>{{ e }}</div>{% endfor %}</div>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data" data-loading-form data-photo-upload>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label" for="id_images">Photos <span class="text-danger" aria-hidden="true">*</span></label>
+                        <input type="file" name="images" id="id_images" class="form-control" accept="image/jpeg,image/png" multiple>
+                        <div class="form-text">JPEG or PNG, up to 2 MB each. You can select multiple photos at once.</div>
+                    </div>
+                    <div class="row g-2 mb-3" data-preview-row></div>
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.caption.id_for_label }}">{{ form.caption.label }}</label>
+                        {{ form.caption }}
+                        {% for error in form.caption.errors %}<div class="text-danger small mt-1" role="alert">{{ error }}</div>{% endfor %}
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-cloud-upload" aria-hidden="true"></i> Upload Photos</button>
+                        <a href="{% url 'providers:dashboard' %}" class="btn btn-ghost">Back to Dashboard</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <h2 class="h5 mb-3">Uploaded Photos ({{ photos|length }})</h2>
+            {% if photos %}
+                <div class="row g-2">
+                    {% for photo in photos %}
+                        <div class="col-6 photo-col">
+                            <div class="photo-tile">
+                                <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'Work photo' }}">
+                                {% if photo.caption %}<p class="photo-caption">{{ photo.caption }}</p>{% endif %}
+                                <form method="post" action="{% url 'providers:work_photo_delete' photo.pk %}" class="pt-2" onsubmit="return confirm('Remove this photo?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100"><i class="bi bi-trash" aria-hidden="true"></i> Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {% include 'components/empty_state.html' with icon='bi-images' title='No photos yet' subtitle='Upload photos of this completed job to showcase your work.' %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+(function () {
+    var input = document.getElementById('id_images');
+    var row = document.querySelector('[data-preview-row]');
+    if (!input || !row) return;
+    var dt = new DataTransfer();
+
+    function render() {
+        row.innerHTML = '';
+        Array.prototype.forEach.call(dt.files, function (file, i) {
+            var col = document.createElement('div');
+            col.className = 'col-4 col-sm-3';
+            var url = URL.createObjectURL(file);
+            col.innerHTML = '<div class="position-relative"><img src="' + url + '" alt="Selected photo preview" class="w-100 rounded" style="aspect-ratio:1/1;object-fit:cover;">' +
+                '<button type="button" class="btn-icon position-absolute top-0 end-0 m-1" style="width:32px;height:32px;" aria-label="Remove this photo from the selection" data-remove-idx="' + i + '"><i class="bi bi-x" style="font-size:1rem;" aria-hidden="true"></i></button></div>';
+            row.appendChild(col);
+        });
+        row.querySelectorAll('[data-remove-idx]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var idx = parseInt(btn.getAttribute('data-remove-idx'), 10);
+                var next = new DataTransfer();
+                Array.prototype.forEach.call(dt.files, function (f, i) { if (i !== idx) next.items.add(f); });
+                dt = next;
+                input.files = dt.files;
+                render();
+            });
+        });
+    }
+
+    input.addEventListener('change', function () {
+        Array.prototype.forEach.call(input.files, function (f) { dt.items.add(f); });
+        input.files = dt.files;
+        render();
+    });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,59 @@
+/* ==========================================================================
+   RESPONSIVE — mobile-first safety net, designed down to 360px.
+   ========================================================================== */
+@media (max-width: 1200px) {
+  :root { --container-max: 100%; }
+}
+
+
+/* Bootstrap's g-5 gutter (3rem) is wider than the container padding, so a
+   .row.g-5 pokes ~12px past the viewport edge. Keep the horizontal gutter
+   at 1.5rem; the vertical gutter (spacing between stacked columns) is
+   unaffected. */
+.row.g-5, .row.gx-5 { --bs-gutter-x: 1.5rem; }
+
+/* Never allow sideways page scroll; wide content scrolls inside itself */
+img, svg, video { max-width: 100%; }
+.table-responsive, .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+@media (max-width: 992px) {
+  .dashboard-shell { flex-direction: column; }
+  .app-sidebar { width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .hero-section { padding-block: var(--space-7); text-align: center; }
+  .hero-cinematic { min-height: 0; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .card-body { padding: var(--space-4); }
+  .table-app { font-size: 0.875rem; }
+  .dashboard-header { flex-direction: column; }
+  .app-footer { padding-top: var(--space-6); margin-top: var(--space-6); }
+
+  /* Dropdowns can otherwise run past the viewport edge on narrow phones */
+  .dropdown-menu { max-width: calc(100vw - 2rem); }
+}
+
+@media (max-width: 576px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  .btn-lg { width: 100%; }
+  h1, .h1 { font-size: 1.75rem; }
+  .container { padding-inline: 1rem; }
+
+  /* iOS Safari zooms on focus for inputs under 16px */
+  .form-control,
+  .form-select,
+  textarea.form-control,
+  .chat-input,
+  .hero-search-bar input {
+    font-size: 1rem;
+  }
+
+  /* Booking wizard step indicator gets tight on narrow phones */
+  .step-indicator-circle { width: 30px; height: 30px; font-size: 0.8rem; }
+  .step-indicator-label { font-size: 0.75rem; }
+
+  .toast-stack { left: 1rem; right: 1rem; }
+  .toast-app { min-width: 0; }
+  .modal-dialog { margin: 0.75rem; }
+}

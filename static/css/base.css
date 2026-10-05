@@ -1,0 +1,103 @@
+/* ==========================================================================
+   BASE — resets, global element defaults
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--navbar-height) + 16px); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: #F3F6FA;
+  background-image:
+    radial-gradient(900px 520px at 8% -6%, rgba(147, 197, 253, 0.28), transparent 70%),
+    radial-gradient(800px 480px at 96% 4%, rgba(153, 246, 228, 0.26), transparent 70%),
+    linear-gradient(180deg, #EEF3F9 0%, #F8FAFC 520px);
+  background-repeat: no-repeat;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+a:hover { color: var(--vv-primary-hover); }
+
+img { max-width: 100%; display: block; }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  opacity: 1;
+}
+
+::selection {
+  background: var(--vv-primary-soft);
+  color: var(--vv-text);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* Visible keyboard focus on every interactive element */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--vv-primary);
+  outline-offset: 2px;
+}
+/* Text fields get the border + soft ring instead of a double outline */
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  box-shadow: var(--shadow-glow-focus);
+  border-color: var(--vv-primary);
+}
+
+.container, .container-fluid { max-width: var(--container-max); }
+.container-fluid.px-0 { max-width: 100%; }
+
+/* Skip link — first focusable element on every page */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 2000;
+  background: var(--vv-primary);
+  color: #fff;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-btn);
+  font-weight: 600;
+}
+.skip-link:focus { top: 1rem; color: #fff; }
+
+/* Legacy utility kept for template compatibility — now a plain solid surface */
+.glass-surface {
+  background: var(--vv-surface);
+  border: 1px solid var(--vv-border);
+}
+
+.section { padding-block: var(--space-8); }
+@media (max-width: 768px) {
+  .section { padding-block: var(--space-6); }
+}

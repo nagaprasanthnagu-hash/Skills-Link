@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Service Categories{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="text-center mb-4 reveal-on-scroll">
+        <span class="eyebrow">Services</span>
+        <h1>Our Services</h1>
+        <p class="lead mx-auto" style="max-width:520px;">Choose from a wide range of home services.</p>
+    </div>
+    {% include 'components/searchbar.html' with placeholder='Search categories...' filter_target='[data-search-item]' %}
+
+    {% if categories %}
+        <div class="d-flex flex-wrap gap-2 mb-4" data-category-pills>
+            <button type="button" class="btn-chip is-active" data-pill-value="">All</button>
+            {% for category in categories %}
+                <button type="button" class="btn-chip" data-pill-value="{{ category.name }}">{{ category.name }}</button>
+            {% endfor %}
+        </div>
+        <script>
+        (function () {
+            var wrap = document.querySelector('[data-category-pills]');
+            var input = document.querySelector('[data-quick-filter] input');
+            if (!wrap || !input) return;
+            wrap.addEventListener('click', function (e) {
+                var btn = e.target.closest('[data-pill-value]');
+                if (!btn) return;
+                wrap.querySelectorAll('.btn-chip').forEach(function (b) { b.classList.remove('is-active'); });
+                btn.classList.add('is-active');
+                input.value = btn.getAttribute('data-pill-value');
+                input.dispatchEvent(new Event('input'));
+            });
+        })();
+        </script>
+    {% endif %}
+
+    {% if categories %}
+        <div class="row g-3 stagger">
+            {% for category in categories %}
+                <div class="col-6 col-md-4 col-lg-3 reveal-on-scroll" data-search-item data-search-name="{{ category.name }}">
+                    <div class="bookinghub-category-card text-center">
+                        <div class="showcase-icon mx-auto {% cycle 'category-accent-1' 'category-accent-2' 'category-accent-3' 'category-accent-4' 'category-accent-5' 'category-accent-6' 'category-accent-7' %}">{% include 'components/category_icon.html' with category=category %}</div>
+                        <h2 class="h6 mt-3 mb-1">{{ category.name }}</h2>
+                        <p class="text-muted-bookinghub small">{{ category.description|truncatewords:12|default:"No description provided." }}</p>
+                        <a href="{% url 'categories:detail' category.pk %}" class="btn btn-outline-primary btn-sm btn-pill">View Providers</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% include 'components/pagination.html' %}
+    {% else %}
+        {% include 'components/empty_state.html' with icon='bi-inbox' title='No categories available' subtitle='Please check back later.' %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'layouts/admin_base.html' %}
+{% block title %}Manage Providers{% endblock %}
+{% block dashboard_content %}
+<div class="admin-head reveal-on-scroll">
+    <div>
+        <span class="eyebrow">Admin</span>
+        <h1>Manage Providers</h1>
+    </div>
+    {% if page_obj.object_list %}<span class="admin-count">{{ page_obj.paginator.count }} total</span>{% endif %}
+</div>
+{% if page_obj.object_list %}
+    <div class="dashboard-panel reveal-on-scroll">
+    <div class="table-responsive">
+        <table class="table table-app table-compact table-stack align-middle mb-0">
+            <thead><tr><th>Name</th><th>Category</th><th>Experience</th><th>Status</th><th class="text-end">Actions</th></tr></thead>
+            <tbody>
+            {% for provider in page_obj.object_list %}
+                <tr>
+                    <td class="fw-medium" data-label="Name">
+                        <span class="person-cell"><span class="avatar-chip" aria-hidden="true">{{ provider.user.userprofile.full_name|first|upper }}</span><span>{{ provider.user.userprofile.full_name }}</span></span>
+                    </td>
+                    <td data-label="Category">{{ provider.category.name|default:"Not set" }}</td>
+                    <td data-label="Experience">{{ provider.experience_years }} yrs</td>
+                    <td data-label="Status">
+                        {% if provider.is_active %}
+                            <span class="badge text-bg-success">Active</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end cell-actions">
+                        <form method="post" class="d-inline" data-confirm="Are you sure you want to {% if provider.is_active %}deactivate{% else %}activate{% endif %} this provider?">
+                            {% csrf_token %}
+                            <input type="hidden" name="provider_id" value="{{ provider.id }}">
+                            <button type="submit" class="btn btn-sm {% if provider.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %}">
+                                {% if provider.is_active %}Deactivate{% else %}Activate{% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+    {% include 'components/pagination.html' %}
+{% else %}
+    {% include 'components/empty_state.html' with icon='bi-person-badge' title='No providers found' %}
+{% endif %}
+{% endblock %}

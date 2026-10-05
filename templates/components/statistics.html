@@ -1,0 +1,22 @@
+{% comment %}
+Stat grid wrapper. Two ways to use it:
+
+1) If a view passes `stats` as a list of dicts (icon/value/label/accent),
+   this renders the whole grid:
+   {% include 'components/statistics.html' %}
+
+2) Existing dashboard views (customer/provider/admin) already pass their
+   KPI numbers as separate named context variables (total_bookings,
+   active_bookings, ...) rather than a list — since view context wasn't
+   touched as part of this UI-only pass, those pages build the same
+   `.stat-grid` wrapper directly in-page and include components/cards.html
+   once per number. Both approaches share the exact same stat-grid /
+   stat-card CSS, so visually they're identical.
+{% endcomment %}
+{% if stats %}
+<div class="stat-grid stagger">
+    {% for stat in stats %}
+        {% include 'components/cards.html' with variant='stat' icon=stat.icon value=stat.value label=stat.label accent=stat.accent %}
+    {% endfor %}
+</div>
+{% endif %}

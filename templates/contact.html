@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="row g-5 align-items-center">
+        <div class="col-md-6 reveal-on-scroll">
+            <span class="eyebrow">Get In Touch</span>
+            <h1>Contact Us</h1>
+            <p class="text-muted-bookinghub">Have a question about a booking, a provider account, or the platform in general? Reach out and we'll get back to you.</p>
+            <ul class="list-unstyled mt-4">
+                <li class="mb-3 d-flex align-items-center gap-2"><span class="showcase-icon" style="width:40px;height:40px;font-size:1rem;"><i class="bi bi-envelope"></i></span> support@skilllink.local</li>
+                {% comment %}
+                Phone support — placeholder number. Replace +91 98765 43210
+                (in both the visible text and the tel: link below) with the
+                real support line before going live.
+                {% endcomment %}
+                <li class="mb-3 d-flex align-items-center gap-2">
+                    <span class="showcase-icon" style="width:40px;height:40px;font-size:1rem;"><i class="bi bi-telephone"></i></span>
+                    <div>
+                        <a href="tel:+919876543210" class="text-white-strong text-decoration-none">+91 98765 43210</a>
+                        <div class="small text-muted-bookinghub">Phone support &middot; Mon&ndash;Sat, 9 AM&ndash;7 PM IST</div>
+                    </div>
+                </li>
+                <li class="mb-3 d-flex align-items-center gap-2"><span class="showcase-icon" style="width:40px;height:40px;font-size:1rem;"><i class="bi bi-geo-alt"></i></span> Uthamapalayam, Tamil Nadu, India</li>
+            </ul>
+            <a href="tel:+919876543210" class="btn btn-primary btn-pill mt-2"><i class="bi bi-telephone-fill"></i> Call Support Now</a>
+        </div>
+        <div class="col-md-6 reveal-on-scroll">
+            <div class="card card-glass p-4">
+                <form class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" required>
+                        <div class="invalid-feedback">Please enter your name.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" required>
+                        <div class="invalid-feedback">Please enter a valid email.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" rows="4" required></textarea>
+                        <div class="invalid-feedback">Please enter a message.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

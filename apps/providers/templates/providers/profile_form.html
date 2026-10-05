@@ -1,0 +1,34 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Provider Profile Setup{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/provider.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container section provider-page">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-7">
+            <div class="page-head">
+                <div>
+                    <h1>Provider Profile</h1>
+                    <p class="page-sub">Select your service category so customers can find and book you.</p>
+                </div>
+                <a href="{% url 'providers:dashboard' %}" class="btn btn-light"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <span class="provider-role-badge"><span class="status-dot" aria-hidden="true"></span>Service Provider</span>
+                <span class="small text-muted-bookinghub">Editing your provider profile{% if request.user.userprofile.full_name %} &middot; {{ request.user.userprofile.full_name }}{% endif %}</span>
+            </div>
+
+            <div class="card form-card animate-fade-up">
+                <form method="post" enctype="multipart/form-data" data-loading-form>
+                    {% csrf_token %}
+                    {% include 'components/form_fields.html' with form=form %}
+                    <button type="submit" class="btn btn-primary w-100 mt-2">Save Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

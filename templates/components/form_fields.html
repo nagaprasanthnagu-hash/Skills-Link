@@ -1,0 +1,59 @@
+{% comment %}
+Reusable Bootstrap-styled form renderer. Usage: {% include 'components/form_fields.html' with form=form %}
+Presentation only: field names, ids, widgets, choices and validation output
+are exactly what Django renders; only wrapper markup/classes are styled.
+{% endcomment %}
+{% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
+    </div>
+{% endif %}
+{% for field in form %}
+    <div class="mb-3 form-field"{% if field.name == 'category' %} data-role-only="provider" hidden{% endif %}>
+        {% if field.field.widget.input_type == 'checkbox' %}
+            <div class="form-check">
+                {{ field }}
+                <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            </div>
+        {% elif field.name == 'rating' and field.field.widget.input_type == 'radio' %}
+            {# Interactive star selector — same underlying radio inputs, styling/JS only. #}
+            <label class="form-label d-block">{{ field.label }}</label>
+            <div class="star-rating-group" data-star-rating>
+                {% for radio in field %}
+                    <span class="star-rating-item">
+                        {{ radio.tag }}
+                        <label class="star-rating-label" for="{{ radio.id_for_label }}" data-star-value="{{ forloop.counter }}" title="{{ radio.choice_label }}">
+                            <i class="bi bi-star-fill" aria-hidden="true"></i>
+                            <span class="visually-hidden">{{ radio.choice_label }}</span>
+                        </label>
+                    </span>
+                {% endfor %}
+            </div>
+        {% elif field.field.widget.input_type == 'radio' %}
+            <label class="form-label d-block">{{ field.label }}</label>
+            <div class="choice-pills">
+                {% for radio in field %}
+                    <div class="form-check form-check-inline">
+                        {{ radio.tag }}
+                        <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif field.field.widget.input_type == 'password' %}
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="text-danger" aria-hidden="true">*</span>{% endif %}</label>
+            <div class="password-field">
+                {{ field }}
+                <button type="button" class="password-toggle-btn" data-password-toggle aria-label="Show password">
+                    <i class="bi bi-eye" aria-hidden="true"></i>
+                </button>
+            </div>
+        {% else %}
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="text-danger" aria-hidden="true">*</span>{% endif %}</label>
+            {{ field }}
+        {% endif %}
+        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+        {% for error in field.errors %}
+            <div class="text-danger small mt-1" role="alert"><i class="bi bi-exclamation-circle" aria-hidden="true"></i> {{ error }}</div>
+        {% endfor %}
+    </div>
+{% endfor %}

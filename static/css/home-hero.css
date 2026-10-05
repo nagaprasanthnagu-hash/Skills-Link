@@ -1,0 +1,153 @@
+/* ==========================================================================
+   HOME HERO — homepage-only. Light layout: a frosted-glass panel (headline +
+   search) beside the original SVG illustration. Scoped to .hero-v2 / .cta-v2
+   so nothing here leaks into other pages. Loaded after layout.css, so the
+   overrides below intentionally win over the shared photo-hero rules there.
+   ========================================================================== */
+
+.hero-v2 {
+  position: relative;
+  isolation: isolate;
+  padding-block: var(--space-6) var(--space-8);
+
+  /* Reset the light-on-dark accents that layout.css applies for photo heroes */
+  --color-glow: var(--vv-primary);
+}
+.hero-v2 a { --color-primary: var(--vv-primary); }
+
+.hero-v2 > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-v2-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--space-6);
+  align-items: center;
+}
+
+/* Glass panel — 66% white, 20px blur, white hairline border */
+.hero-v2 .hero-v2-panel {
+  max-width: none;
+  padding: var(--space-6);
+  background: rgba(255, 255, 255, 0.66);
+  backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  -webkit-backdrop-filter: blur(var(--gl-blur)) var(--gl-saturate);
+  border: var(--gl-border);
+  border-radius: 24px;
+  box-shadow: var(--gl-shadow), var(--gl-highlight);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hero-v2 .hero-v2-panel { background: #FFFFFF; }
+}
+
+.hero-v2-title {
+  color: var(--color-text);
+  font-size: clamp(1.7rem, 1.2rem + 2vw, 2.6rem);
+  line-height: 1.18;
+  margin-bottom: var(--space-3);
+}
+.hero-v2-title .text-emphasis { color: var(--vv-primary); }
+
+.hero-v2-lead {
+  color: var(--color-text-muted);
+  max-width: 520px;
+  margin-bottom: var(--space-5);
+}
+
+/* Search bar sits on a near-solid white layer inside the panel */
+.hero-v2 .hero-search-bar {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+.hero-v2 .hero-search-bar i { color: var(--color-text-muted); }
+.hero-v2 .hero-search-bar input::placeholder { color: #64748B; }
+.hero-v2 .hero-search-bar:focus-within {
+  border-color: rgba(15, 118, 110, 0.55);
+  box-shadow: var(--shadow-glow-focus);
+}
+.hero-v2-search { max-width: 100%; width: 100%; }
+
+.hero-v2-actions .btn { white-space: nowrap; }
+.hero-v2-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.hero-v2-explore:hover { color: var(--vv-primary); }
+
+/* Illustration frame */
+.hero-v2-visual {
+  margin: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #F1F5F9;
+  border: var(--gl-border);
+  box-shadow: var(--vv-shadow-hover);
+  aspect-ratio: 4 / 3;
+}
+.hero-v2-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- Responsive: tablet / mobile ---------------------------------------- */
+@media (max-width: 991.98px) {
+  .hero-v2-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-v2-visual { max-width: 560px; width: 100%; margin-inline: auto; }
+}
+@media (max-width: 576px) {
+  .hero-v2 { padding-block: var(--space-4) var(--space-6); }
+  .hero-v2 .hero-v2-panel { padding: var(--space-5) var(--space-4); border-radius: 20px; }
+  .hero-v2-title { font-size: 1.5rem; }
+  .hero-v2-actions { flex-direction: column; align-items: stretch; }
+  .hero-v2-actions .btn { width: 100%; }
+  .hero-v2-explore { justify-content: center; }
+}
+
+/* ==========================================================================
+   FINAL CTA BANNER — same dark-glass-over-photo treatment, shorter panel.
+   ========================================================================== */
+.cta-v2 {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--radius-lg);
+
+  --color-text: #FFFFFF;
+  --color-text-muted: #E4E8F7;
+  --color-border: rgba(255, 255, 255, 0.24);
+}
+.cta-v2-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+.cta-v2-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(100deg, rgba(6, 12, 40, 0.90) 0%, rgba(20, 30, 70, 0.72) 55%, rgba(20, 30, 70, 0.45) 100%);
+}
+.cta-v2-content {
+  position: relative;
+  z-index: 2;
+  color: var(--color-text);
+}
+.cta-v2-content p { color: var(--color-text-muted); }
+
+@media (max-width: 576px) {
+  .cta-v2-content .btn { width: 100%; }
+}

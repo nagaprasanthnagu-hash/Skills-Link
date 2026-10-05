@@ -1,0 +1,105 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags %}
+{% block title %}{% if raw_query %}Search — {{ raw_query }}{% else %}Search{% endif %}{% endblock %}
+{% block content %}
+<div class="container section">
+    {% include 'components/breadcrumbs.html' with current_label='Search' %}
+
+    <div class="mb-4 reveal-on-scroll">
+        <span class="eyebrow">Search</span>
+        {% if raw_query %}
+            <h1 class="mb-1">{% if providers and query %}Providers for <span class="text-emphasis-red">#{{ query }}</span>{% else %}Search results for &ldquo;{{ raw_query }}&rdquo;{% endif %}</h1>
+        {% else %}
+            <h1 class="mb-1">Search for a service</h1>
+        {% endif %}
+
+        <form method="get" action="{% url 'search' %}" class="hero-search-bar search-results-bar mt-3">
+            <i class="bi bi-search"></i>
+            <input type="text" name="q" value="{{ raw_query }}" placeholder="Search or try #fan" aria-label="Search for a service or tag" autocomplete="off">
+            <button type="submit" class="btn btn-primary btn-pill">Search</button>
+        </form>
+    </div>
+
+    {% url 'categories:list' as categories_url %}
+
+    {% if not raw_query %}
+        {% include 'components/empty_state.html' with icon='bi-search' title='Start typing to search' subtitle='Try a service like "fan", "plumbing" or "cleaning".' cta_url=categories_url cta_label='Browse All Services' %}
+    {% elif providers %}
+        <p class="text-muted-bookinghub reveal-on-scroll">{{ providers|length }} provider{{ providers|length|pluralize }} found.</p>
+        <div class="row g-3 stagger">
+            {% for provider in providers %}
+                <div class="col-md-6 col-lg-4 reveal-on-scroll">
+                    <article class="card card-float provider-result h-100">
+                        <div class="pr-head">
+                            {% if provider.profile_photo %}
+                                <img src="{{ provider.profile_photo.url }}" class="rounded-circle" width="52" height="52" style="object-fit:cover;" alt="{{ provider.user.userprofile.full_name }}">
+                            {% else %}
+                                <div class="bookinghub-avatar-placeholder" style="width:52px;height:52px;font-size:1.15rem;">{{ provider.user.userprofile.full_name|first|upper }}</div>
+                            {% endif %}
+                            <div class="min-w-0">
+                                <h3 class="pr-name">{{ provider.user.userprofile.full_name }}</h3>
+                                <span class="provider-role-badge mt-1"><span class="status-dot" aria-hidden="true"></span>Service Provider</span>
+                            </div>
+                        </div>
+
+                        <p class="pr-meta mb-2">
+                            {% if provider.category %}<i class="bi bi-tools" aria-hidden="true"></i> {{ provider.category.name }} &middot; {% endif %}{{ provider.experience_years }} yrs experience
+                        </p>
+
+                        {% if provider.service_tags.all %}
+                            <div class="d-flex flex-wrap gap-1 mb-3">
+                                {% for tag in provider.service_tags.all %}
+                                    <a class="btn-chip{% if tag.name == query %} is-active{% endif %}" href="{% url 'search' %}?q={{ tag.name }}">{{ tag.display }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <p class="pr-bio">{{ provider.bio|truncatewords:20|default:"No bio provided." }}</p>
+
+                        {% if provider.average_rating %}
+                            <p class="small mb-3">
+                                {% for s in provider.average_rating|star_range %}<i class="bi bi-star-fill bookinghub-star"></i>{% endfor %}
+                                {% for s in provider.average_rating|empty_star_range %}<i class="bi bi-star bookinghub-star-empty"></i>{% endfor %}
+                                <span class="text-muted-bookinghub">({{ provider.review_count }})</span>
+                            </p>
+                        {% else %}
+                            <p class="small text-muted-bookinghub mb-3">No reviews yet</p>
+                        {% endif %}
+
+                        <div class="pr-actions">
+                            <a href="{% url 'reviews:provider_reviews' provider.pk %}" class="btn btn-outline-primary btn-sm">View Profile</a>
+                            {% if user.is_authenticated and user_role == 'customer' %}
+                                <a href="{% url 'bookings:create' %}" class="btn btn-primary btn-sm">Book Service</a>
+                            {% elif not user.is_authenticated %}
+                                <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-sm">Log In to Book</a>
+                            {% endif %}
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    {% elif categories %}
+        <p class="text-muted-bookinghub reveal-on-scroll">No provider has the exact tag &ldquo;{{ query }}&rdquo; yet — here are matching service categories instead.</p>
+        <div class="row g-3 stagger">
+            {% for category in categories %}
+                <div class="col-6 col-md-4 col-lg-3 reveal-on-scroll">
+                    <a href="{% url 'categories:detail' category.pk %}" class="text-decoration-none">
+                        <div class="showcase-card">
+                            <div class="showcase-icon {% include 'components/category_pastel_class.html' with category=category %}">{% include 'components/category_icon.html' with category=category %}</div>
+                            <h3 class="h6 mb-0">{{ category.name }}</h3>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if query %}
+            {% with empty_title='No providers found for #'|add:query %}
+                {% include 'components/empty_state.html' with icon='bi-hash' title=empty_title subtitle='Try another service tag, or browse all services.' cta_url=categories_url cta_label='Browse Services' %}
+            {% endwith %}
+        {% else %}
+            {% include 'components/empty_state.html' with icon='bi-emoji-frown' title='No results found' subtitle='Try a different keyword, or browse all services.' cta_url=categories_url cta_label='Browse Services' %}
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

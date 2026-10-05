@@ -1,0 +1,161 @@
+/* ==========================================================================
+   DESIGN TOKENS — SkillLink (light theme, teal primary, controlled glass)
+   Single source of truth. The --vv-* tokens are the brand palette; the older
+   --color-* / --glass-* / --shadow-* / --radius-* names are kept and mapped
+   onto it so every existing stylesheet and template keeps working.
+   The legacy --glass-1..4 tokens stay SOLID (they feed cards, forms, tables
+   and buttons, which must stay readable). Real frosted glass uses the
+   --gl-* tokens below and is applied only to: the floating navbar, the hero
+   search panel, trust indicators, selected CTA panels (.glass-panel), modal
+   dialogs and the chat launcher.
+   ========================================================================== */
+:root {
+  /* -- Brand palette ---------------------------------------------- */
+  --vv-page-bg: #F8FAFC;
+  --vv-surface: #FFFFFF;
+  --vv-surface-soft: #F1F5F9;
+  --vv-text: #0F172A;
+  --vv-text-muted: #64748B;
+  --vv-border: #E2E8F0;
+  --vv-primary: #0F766E;
+  --vv-primary-hover: #115E59;
+  --vv-primary-soft: #CCFBF1;
+  --vv-success: #16A34A;
+  --vv-warning: #F59E0B;
+  --vv-danger: #DC2626;
+  --vv-info: #2563EB;
+  --vv-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+  --vv-shadow-hover: 0 16px 40px rgba(15, 23, 42, 0.12);
+
+  /* Darker amber for TEXT on light tints (the raw amber fails contrast) */
+  --vv-warning-text: #B45309;
+  --vv-navy: #0F172A;
+
+  /* -- Legacy token names, mapped to the palette -------------------------- */
+  --color-bg: var(--vv-page-bg);
+  --color-surface: var(--vv-surface);
+  --color-surface-raised: var(--vv-surface);
+  --color-dark: var(--vv-navy);
+  --color-dark-surface: var(--vv-navy);
+  --color-glass-rgb: 255, 255, 255;
+
+  --color-primary: var(--vv-primary);
+  --color-primary-deep: var(--vv-primary-hover);
+  --color-primary-600: var(--vv-primary);
+  --color-primary-700: var(--vv-primary-hover);
+  --color-primary-50: rgba(15, 118, 110, 0.07);
+  --color-primary-100: rgba(15, 118, 110, 0.14);
+  --color-glow: var(--vv-primary);          /* link hover / emphasis */
+  --color-purple: #7C3AED;
+  --color-purple-50: rgba(124, 58, 237, 0.10);
+  --color-cyan: var(--vv-primary);
+  --color-teal: #0D9488;
+  --color-teal-50: rgba(13, 148, 136, 0.12);
+
+  --color-text: var(--vv-text);
+  --color-text-muted: var(--vv-text-muted);
+  --color-text-subtle: var(--vv-text-muted);
+  --color-text-inverse: #FFFFFF;
+
+  --color-border: var(--vv-border);
+  --color-border-soft: #EEF2F6;
+
+  /* -- Semantic -------------------------------------------------------------- */
+  --color-success: var(--vv-success);
+  --color-success-50: rgba(22, 163, 74, 0.10);
+  --color-warning: var(--vv-warning);
+  --color-warning-50: rgba(245, 158, 11, 0.14);
+  --color-danger: var(--vv-danger);
+  --color-danger-50: rgba(220, 38, 38, 0.08);
+  --color-info: var(--vv-info);
+  --color-info-50: rgba(37, 99, 235, 0.08);
+  --color-rating-gold: var(--vv-warning);
+
+  /* -- "Gradients" — now flat so nothing renders as a rainbow ---------------- */
+  --gradient-brand: linear-gradient(0deg, #0F766E, #0F766E);
+  --gradient-brand-soft: linear-gradient(0deg, #CCFBF1, #CCFBF1);
+  --gradient-dark: linear-gradient(0deg, #0F172A, #0F172A);
+  --gradient-glow: none;
+  --gradient-card-border: none;
+
+  /* -- Former glass tiers -> solid surfaces, no blur ------------------------ */
+  --glass-1-bg: var(--vv-surface);
+  --glass-1-blur: 0px;
+  --glass-2-bg: var(--vv-surface);
+  --glass-2-blur: 0px;
+  --glass-3-bg: var(--vv-surface);
+  --glass-3-blur: 0px;
+  --glass-4-bg: var(--vv-surface);
+  --glass-4-blur: 0px;
+  --glass-saturate: saturate(100%);
+  --glass-border: 1px solid var(--vv-border);
+  --glass-inner-highlight: 0 0 0 0 transparent;
+  --glass-fallback-bg: var(--vv-surface);
+  --color-surface-glass: var(--vv-surface);
+
+  /* -- Premium glass (controlled) ----------------------------------------- */
+  --gl-bg-light: rgba(255, 255, 255, 0.52);
+  --gl-bg: rgba(255, 255, 255, 0.62);
+  --gl-bg-strong: rgba(255, 255, 255, 0.72);
+  --gl-blur: 20px;                          /* within the 16-24px range */
+  --gl-saturate: saturate(160%);
+  --gl-border: 1px solid rgba(255, 255, 255, 0.72);
+  --gl-shadow: 0 12px 40px rgba(15, 23, 42, 0.10);
+  --gl-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
+  /* -- Spacing: 8px scale ---------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* -- Radii ---------------------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-btn: 10px;
+  --radius-card: 14px;
+  --radius-lg: 14px;
+  --radius-panel: 16px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* -- Shadows -------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.07);
+  --shadow-md: var(--vv-shadow);
+  --shadow-lg: var(--vv-shadow-hover);
+  --shadow-glass: var(--vv-shadow);
+  --shadow-glow-primary: 0 2px 8px rgba(15, 118, 110, 0.22);
+  --shadow-glow-success: 0 2px 8px rgba(22, 163, 74, 0.20);
+  --shadow-glow-danger: 0 2px 8px rgba(220, 38, 38, 0.20);
+  --shadow-glow-focus: 0 0 0 3px rgba(15, 118, 110, 0.22);
+
+  /* -- Motion ----------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-entrance: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);   /* spring overshoot removed */
+
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-step: 400ms;
+  --duration-modal: 250ms;
+  --duration-float: 3600ms;
+  --duration-skeleton: 1200ms;
+
+  /* -- Layout --------------------------------------------------------------- */
+  --sidebar-width: 264px;
+  --navbar-height: 88px;   /* floating pill (68px) + page margin */
+  --container-max: 1280px;
+
+  /* -- Type ------------------------------------------------------------------ */
+  --font-display: 'Sora', 'Inter', system-ui, sans-serif;   /* headings, hero, dashboard numbers */
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;  /* everything else */
+}

@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags static %}
+{% block title %}Reviews for {{ provider.user.userprofile.full_name }}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/provider.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container section provider-page">
+    <section class="card provider-card-head reveal-on-scroll" aria-label="Provider">
+        {% if provider.profile_photo %}
+            <img src="{{ provider.profile_photo.url }}" class="pc-avatar" width="72" height="72" alt="{{ provider.user.userprofile.full_name }}">
+        {% else %}
+            <div class="bookinghub-avatar-placeholder" style="width:72px;height:72px;font-size:1.5rem;" aria-hidden="true">{{ provider.user.userprofile.full_name|first|upper }}</div>
+        {% endif %}
+        <div>
+            <h1>{{ provider.user.userprofile.full_name }}</h1>
+            <span class="provider-role-badge mb-2"><span class="status-dot" aria-hidden="true"></span>Service Provider</span>
+            <p class="pc-meta">{{ provider.category.name }} &middot; {{ provider.experience_years }} yrs experience</p>
+            {% if provider.average_rating %}
+                <p class="pc-rating">
+                    <span>
+                        {% for s in provider.average_rating|star_range %}<i class="bi bi-star-fill bookinghub-star" aria-hidden="true"></i>{% endfor %}
+                        {% for s in provider.average_rating|empty_star_range %}<i class="bi bi-star bookinghub-star-empty" aria-hidden="true"></i>{% endfor %}
+                    </span>
+                    <span class="fw-semibold">{{ provider.average_rating }}</span>
+                    <span class="text-muted-bookinghub">({{ provider.review_count }} reviews)</span>
+                </p>
+            {% endif %}
+            {% if provider.service_tags.all %}
+                <div class="tag-list mt-2">
+                    {% for tag in provider.service_tags.all %}<a class="btn-chip" href="{% url 'search' %}?q={{ tag.name }}">{{ tag.display }}</a>{% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    {% if work_photos %}
+        <h2 class="section-title">Completed Works</h2>
+        <div class="row g-3 mb-5 stagger">
+            {% for photo in work_photos %}
+                <div class="col-6 col-md-4 col-lg-3 reveal-on-scroll">
+                    <a href="{{ photo.image.url }}" target="_blank" rel="noopener" class="work-photo-card text-decoration-none">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'Completed work' }}">
+                        <div class="small text-muted-bookinghub">{{ photo.booking.category.name }}</div>
+                        {% if photo.caption %}<div class="small text-body">{{ photo.caption }}</div>{% endif %}
+                        <div class="small text-muted-bookinghub">{{ photo.created_at|date:"d M Y" }}</div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h2 class="section-title">Rating &amp; Reviews</h2>
+    {% if reviews %}
+        <div class="stagger">
+            {% for review in reviews %}
+                <article class="card review-card reveal-on-scroll">
+                    <div class="rc-top">
+                        <span class="rc-name">{{ review.customer.user.userprofile.full_name }}</span>
+                        <span class="rc-date">{{ review.created_at|date:"d M Y" }}</span>
+                    </div>
+                    <div class="rc-stars">
+                        {% for s in review.rating|star_range %}<i class="bi bi-star-fill bookinghub-star" aria-hidden="true"></i>{% endfor %}
+                        {% for s in review.rating|empty_star_range %}<i class="bi bi-star bookinghub-star-empty" aria-hidden="true"></i>{% endfor %}
+                        <span class="visually-hidden">{{ review.rating }} out of 5</span>
+                    </div>
+                    {% if review.comment %}<p class="rc-comment">{{ review.comment }}</p>{% endif %}
+                </article>
+            {% endfor %}
+        </div>
+        {% include 'components/pagination.html' %}
+    {% else %}
+        {% include 'components/empty_state.html' with icon='bi-chat-square-text' title='No reviews yet' subtitle='No reviews yet for this provider.' %}
+    {% endif %}
+</div>
+{% endblock %}

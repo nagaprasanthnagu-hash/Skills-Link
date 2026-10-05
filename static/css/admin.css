@@ -1,0 +1,211 @@
+/* ==========================================================================
+   ADMIN WORKSPACE — light SaaS admin styling, scoped under .admin-page
+   (the wrapper added in layouts/admin_base.html). Builds on the shared
+   design system; nothing here leaks to customer or provider pages.
+   Solid cards, tables and forms. Glass is used only on the Quick Actions
+   panel (.glass-panel-strong, defined in layout.css).
+   ========================================================================== */
+
+/* -- Sidebar: floating light card on desktop (stacked block on mobile, which
+   the shared sidebar.css already handles at <= 992px) ----------------------- */
+@media (min-width: 993px) {
+  .admin-page .app-sidebar {
+    align-self: flex-start;
+    height: auto;
+    max-height: calc(100vh - var(--navbar-height) - var(--space-4));
+    margin: var(--space-2) 0 var(--space-4) var(--space-4);
+    top: calc(var(--navbar-height) + var(--space-2));
+    background: var(--vv-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    box-shadow: var(--vv-shadow);
+    padding: var(--space-3);
+  }
+}
+.admin-page .app-sidebar .sidebar-section-label { margin-top: var(--space-4); }
+.admin-page .app-sidebar .sidebar-section-label:first-child,
+.admin-page .app-sidebar nav > .sidebar-section-label:first-child { margin-top: var(--space-1); }
+.admin-page .app-sidebar .nav-link { border-radius: 12px; }
+.admin-page .app-sidebar .nav-link.active { box-shadow: inset 3px 0 0 var(--vv-primary); }
+
+/* -- Page header ------------------------------------------------------------------ */
+.admin-page .admin-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+.admin-page .admin-head h1 { margin: 0; font-size: 1.75rem; }
+.admin-page .eyebrow { margin-bottom: 0.25rem; }
+.admin-page .admin-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.2rem 0.8rem;
+  border-radius: var(--radius-pill);
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* -- KPI cards: real counts only, informational so no hover lift -------------------- */
+.admin-page .admin-kpi-row .stat-card { border-top: 1px solid var(--color-border); }
+.admin-page .stat-card:hover { transform: none; box-shadow: var(--vv-shadow); }
+.admin-page .admin-kpi-row .stat-card:nth-child(4) .stat-icon { background: var(--color-info-50); color: var(--vv-info); }
+.admin-page .stat-card .stat-label { font-size: 0.9375rem; }
+
+/* -- Booking status chips, coloured by the existing display label ------------------- */
+.admin-page .status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+}
+.admin-page .status-chip {
+  position: relative;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--vv-surface-soft);
+  text-align: left;
+}
+.admin-page .status-chip::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 14px; bottom: 14px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: #94A3B8;
+}
+.admin-page .status-chip .sc-count {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+.admin-page .status-chip .sc-label { font-size: 0.875rem; font-weight: 600; margin-top: 0.15rem; color: #475569; }
+.admin-page .status-chip.is-pending { background: #FFFBEB; border-color: rgba(245, 158, 11, 0.35); }
+.admin-page .status-chip.is-pending::before { background: var(--vv-warning); }
+.admin-page .status-chip.is-pending .sc-label { color: #92400E; }
+.admin-page .status-chip.is-accepted { background: #F0FDFA; border-color: rgba(15, 118, 110, 0.28); }
+.admin-page .status-chip.is-accepted::before { background: var(--vv-primary); }
+.admin-page .status-chip.is-accepted .sc-label { color: var(--vv-primary-hover); }
+.admin-page .status-chip.is-in-progress { background: #EFF6FF; border-color: rgba(37, 99, 235, 0.25); }
+.admin-page .status-chip.is-in-progress::before { background: var(--vv-info); }
+.admin-page .status-chip.is-in-progress .sc-label { color: #1D4ED8; }
+.admin-page .status-chip.is-completed { background: #F0FDF4; border-color: rgba(22, 163, 74, 0.28); }
+.admin-page .status-chip.is-completed::before { background: var(--vv-success); }
+.admin-page .status-chip.is-completed .sc-label { color: #15803D; }
+.admin-page .status-chip.is-cancelled { background: #FEF2F2; border-color: rgba(220, 38, 38, 0.28); }
+.admin-page .status-chip.is-cancelled::before { background: var(--vv-danger); }
+.admin-page .status-chip.is-cancelled .sc-label { color: #B91C1C; }
+
+/* -- Quick Actions: the one glass panel -------------------------------------------- */
+.admin-page .admin-actions {
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+.admin-page .admin-actions .btn-light { background: rgba(255, 255, 255, 0.85); }
+
+/* -- Panels ------------------------------------------------------------------------- */
+.admin-page .dashboard-panel { overflow: hidden; }
+
+/* -- People / role cells ------------------------------------------------------------- */
+.admin-page .person-cell { display: inline-flex; align-items: center; gap: 0.65rem; min-width: 0; }
+.admin-page .person-cell > span:last-child { overflow-wrap: anywhere; }
+.admin-page .user-cell { overflow-wrap: anywhere; }
+.admin-page .role-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--vv-surface-soft);
+  border: 1px solid var(--color-border);
+  color: #334155;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* -- Activate button: teal (Deactivate stays the shared red outline) ------------------ */
+.admin-page .btn-outline-success {
+  background: transparent;
+  border: 1px solid var(--vv-primary);
+  color: var(--vv-primary-hover);
+}
+.admin-page .btn-outline-success:hover,
+.admin-page .btn-outline-success:focus {
+  background: var(--vv-primary);
+  border-color: var(--vv-primary);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.admin-page .cell-actions form { margin: 0; }
+.admin-page .cell-actions { white-space: nowrap; }
+.admin-page .cell-actions > * + * { margin-left: 0.35rem; }
+
+/* -- Table density + row hover ------------------------------------------------------ */
+.admin-page .table-app { box-shadow: none; border: 0; border-radius: 0; background: transparent; }
+.admin-page .table-app thead th { border-radius: 0; }
+.admin-page .table-app tbody tr:hover { background: var(--vv-surface-soft); }
+
+/* -- Pagination -------------------------------------------------------------------------- */
+.admin-page .pagination { flex-wrap: wrap; row-gap: 0.35rem; }
+
+/* -- Category form card -------------------------------------------------------------------- */
+.admin-page .form-card { padding: var(--space-6); }
+.admin-page .form-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-4); }
+@media (max-width: 576px) {
+  .admin-page .form-card { padding: var(--space-5) var(--space-4); }
+}
+
+/* -- Tables on small screens: each row becomes a labelled card ------------------------------ */
+@media (max-width: 575.98px) {
+  .admin-page .admin-head h1 { font-size: 1.5rem; }
+  /* Only panels that hold a table drop their card chrome (rows become cards);
+     other panels, e.g. the status breakdown, stay as solid panels. */
+  .admin-page .dashboard-panel:has(> .table-responsive) { background: transparent; border: 0; box-shadow: none; padding: 0; overflow: visible; }
+  .admin-page .dashboard-panel:has(> .table-responsive) .panel-header { padding-inline: 0.25rem; }
+  .admin-page .dashboard-panel > .table-responsive { overflow: visible; }
+
+  .admin-page .table-stack thead {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);
+  }
+  .admin-page .table-stack, .admin-page .table-stack tbody,
+  .admin-page .table-stack tr, .admin-page .table-stack td { display: block; width: 100%; }
+  .admin-page .table-stack tbody tr {
+    background: var(--vv-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--vv-shadow);
+    padding: 0.35rem 0.9rem;
+    margin-bottom: var(--space-3);
+  }
+  .admin-page .table-stack tbody tr:hover { background: var(--vv-surface); }
+  .admin-page .table-stack tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--color-border-soft);
+    text-align: right;
+  }
+  .admin-page .table-stack tbody td:last-child { border-bottom: 0; }
+  .admin-page .table-stack tbody td[data-label]::before {
+    content: attr(data-label);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-align: left;
+    flex-shrink: 0;
+  }
+  .admin-page .table-stack tbody td.cell-actions { justify-content: flex-end; flex-wrap: wrap; white-space: normal; }
+  .admin-page .table-stack tbody td.cell-actions > * { flex: 1 1 auto; margin-left: 0; }
+  .admin-page .table-stack tbody td.cell-actions form .btn { width: 100%; }
+  .admin-page .table-stack tbody td.cell-actions form { flex: 1 1 auto; display: block; }
+  .admin-page .person-cell { justify-content: flex-end; text-align: right; }
+}

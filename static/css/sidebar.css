@@ -1,0 +1,79 @@
+/* ==========================================================================
+   SIDEBAR — dashboard navigation rail (admin colours come from admin.css,
+   which is deliberately untouched until the admin phase)
+   ========================================================================== */
+.app-sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--vv-surface);
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-4) var(--space-3);
+  position: sticky;
+  top: var(--navbar-height);
+  height: calc(100vh - var(--navbar-height));
+  overflow-y: auto;
+}
+
+.app-sidebar .sidebar-section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 0 0.75rem;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+.app-sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.15rem;
+  transition: background var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+.app-sidebar .nav-link i { font-size: 1.05rem; width: 20px; text-align: center; color: var(--color-text-muted); }
+
+.app-sidebar .nav-link:hover {
+  background: var(--vv-surface-soft);
+  color: var(--vv-primary);
+}
+.app-sidebar .nav-link:hover i { color: var(--vv-primary); }
+
+.app-sidebar .nav-link.active {
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  font-weight: 600;
+}
+.app-sidebar .nav-link.active i { color: var(--vv-primary-hover); }
+
+.app-sidebar .nav-link .badge-count { margin-left: auto; font-size: 0.75rem; }
+
+/* Tablet/mobile: the sidebar becomes a collapsible block above the content.
+   The "Menu" toggle (data-sidebar-toggle) lives inside .app-sidebar and
+   navbar.js toggles .is-open on it, so only the toggle shows until opened. */
+@media (max-width: 992px) {
+  .app-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-3) var(--space-4);
+  }
+  .app-sidebar [data-sidebar-toggle] {
+    margin-bottom: 0 !important;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .app-sidebar:not(.is-open) > :not([data-sidebar-toggle]) { display: none; }
+  .app-sidebar.is-open [data-sidebar-toggle] { margin-bottom: var(--space-3) !important; }
+  .dashboard-content { width: 100%; }
+}

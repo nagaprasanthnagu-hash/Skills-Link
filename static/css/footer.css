@@ -1,0 +1,63 @@
+/* ==========================================================================
+   FOOTER — solid dark navy, no glass
+   ========================================================================== */
+.app-footer {
+  background: var(--vv-navy);
+  color: #CBD5E1;
+  padding: var(--space-7) 0 var(--space-5);
+  margin-top: var(--space-8);
+}
+.app-footer h3, .app-footer .h5, .app-footer .h6 {
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+.app-footer a { color: #CBD5E1; }
+.app-footer a:hover { color: #5EEAD4; }
+.app-footer a:focus-visible { outline-color: #5EEAD4; }
+.app-footer p { color: #CBD5E1; }
+.app-footer .small, .app-footer small { color: #CBD5E1; font-size: 0.875rem; }
+
+.app-footer .footer-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: var(--space-3);
+}
+.app-footer .footer-brand .brand-mark { background: #14B8A6; color: #042F2E; }
+
+.app-footer ul { list-style: none; padding: 0; margin: 0; }
+.app-footer li { margin-bottom: 0.6rem; }
+
+.app-footer .footer-bottom {
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  font-size: 0.875rem;
+  color: #94A3B8;
+}
+
+.app-footer .social-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: rgba(148, 163, 184, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+  color: #E2E8F0;
+  transition: background var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+}
+.app-footer .social-icon:hover {
+  background: #0F766E;
+  color: #fff;
+  transform: translateY(-2px);
+}

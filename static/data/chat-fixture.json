@@ -1,0 +1,23 @@
+{
+  "greeting": "Hi! I'm the SkillLink Assistant. What kind of service are you looking for today?",
+  "quickReplies": ["Electrician", "AC Repair", "Cleaning", "More"],
+  "responses": {
+    "electrician": {
+      "text": "Here's a top-rated electrician near you:",
+      "providerCard": { "name": "Ravi Electrical Services", "rating": 4.8, "availability": "Available Today" }
+    },
+    "ac repair": {
+      "text": "Found a well-reviewed AC repair specialist:",
+      "providerCard": { "name": "CoolFix AC Services", "rating": 4.6, "availability": "Available Tomorrow" }
+    },
+    "cleaning": {
+      "text": "Here's a highly-rated cleaning provider:",
+      "providerCard": { "name": "Sparkle Home Cleaning", "rating": 4.9, "availability": "Available Today" }
+    },
+    "more": {
+      "text": "You can browse every category on the Services page — want me to take you there?",
+      "actionLabel": "Browse Services"
+    }
+  },
+  "fallback": "Got it! Try a quick reply like \"Electrician\" or \"Cleaning\", or browse all services from the button below."
+}

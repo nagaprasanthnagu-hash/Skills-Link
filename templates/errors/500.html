@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Server Error{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5">
+            <div class="card card-glass p-4 p-md-5 text-center animate-scale-in">
+                <div class="showcase-icon mx-auto mb-3" style="width:80px;height:80px;font-size:2rem;">
+                    <i class="bi bi-exclamation-octagon"></i>
+                </div>
+                <h1>Something went wrong on our end</h1>
+                <p class="text-muted-bookinghub">Please try again in a moment. If the problem persists, contact support.</p>
+                <a href="{% url 'home' %}" class="btn btn-primary mt-2"><i class="bi bi-house"></i> Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

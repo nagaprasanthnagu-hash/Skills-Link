@@ -1,0 +1,19 @@
+{% extends 'layouts/admin_base.html' %}
+{% block title %}{% if object %}Edit{% else %}New{% endif %} Category{% endblock %}
+{% block dashboard_content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="card form-card animate-fade-up">
+            <h1 class="h4 mb-4">{% if object %}Edit Category{% else %}New Category{% endif %}</h1>
+            <form method="post" data-loading-form>
+                {% csrf_token %}
+                {% include 'components/form_fields.html' with form=form %}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Category</button>
+                    <a href="{% url 'categories:manage_list' %}" class="btn btn-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

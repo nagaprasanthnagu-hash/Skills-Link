@@ -1,0 +1,83 @@
+/* ==========================================================================
+   DASHBOARD — shared patterns for customer / provider / admin dashboards
+   ========================================================================== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+.dashboard-header .greeting-eyebrow {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  margin-bottom: 0.15rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.dashboard-panel {
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+  box-shadow: var(--vv-shadow);
+}
+.dashboard-panel .panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.dashboard-panel .panel-header h2,
+.dashboard-panel .panel-header .h5 { margin-bottom: 0; }
+
+@media (max-width: 768px) {
+  .dashboard-panel { padding: var(--space-4); }
+}
+
+/* Vertical audit-log timeline (status history) */
+.status-timeline { list-style: none; padding: 0; margin: 0; }
+.status-timeline li {
+  position: relative;
+  padding-left: 1.6rem;
+  padding-bottom: var(--space-4);
+  border-left: 2px solid var(--color-border);
+  margin-left: 0.4rem;
+}
+.status-timeline li:last-child { border-color: transparent; padding-bottom: 0; }
+.status-timeline li::before {
+  content: '';
+  position: absolute;
+  left: -6px; top: 4px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--vv-primary);
+  box-shadow: 0 0 0 3px var(--vv-surface);
+}
+
+/* Booking detail info list */
+.detail-info-list dt {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-top: 1px solid var(--color-border-soft);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+.detail-info-list dd {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+}
+.detail-info-list dt:first-of-type { border-top: none; }
+@media (min-width: 576px) {
+  .detail-info-list dd { border-top: 1px solid var(--color-border-soft); }
+  .detail-info-list dd:first-of-type { border-top: none; }
+}

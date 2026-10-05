@@ -1,0 +1,83 @@
+/* ==========================================================================
+   TYPOGRAPHY — Sora for headings / hero / dashboard numbers,
+   Inter for body, navigation, buttons, forms, tables, badges and helper text.
+   Both are the locally bundled fonts (static/vendor/sora, static/vendor/inter).
+   ========================================================================== */
+body {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;     /* 15px */
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+  font-family: var(--font-display);
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-3);
+}
+h5, h6, .h5, .h6 {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: var(--space-2);
+}
+
+h1, .h1, .display-1 {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+h2, .h2 { font-size: 1.75rem; line-height: 1.25; }
+h3, .h3 { font-size: 1.25rem; line-height: 1.35; }
+h4, .h4 { font-size: 1.0625rem; line-height: 1.4; }
+h5, .h5 { font-size: 0.9375rem; }
+h6, .h6 { font-size: 0.875rem; }   /* no forced uppercase */
+
+.display-2 { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.02em; }
+
+/* Emphasis inside headings — colour only, no glow */
+h1 em, h1 .text-emphasis, .h1 em, .h1 .text-emphasis,
+h2 em, h2 .text-emphasis {
+  color: var(--vv-primary);
+  font-style: normal;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--vv-primary);
+  margin-bottom: var(--space-2);
+}
+
+.lead, .body-lg {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+.text-muted, .text-muted-bookinghub { color: var(--color-text-muted) !important; }
+.text-subtle { color: var(--color-text-muted) !important; }
+.text-white-strong { color: var(--color-text) !important; }
+.text-gradient { color: var(--vv-primary); }
+
+.fw-medium { font-weight: 500; }
+.fw-semibold { font-weight: 600; }
+
+small, .small, .caption { font-size: 0.8125rem; line-height: 1.45; font-weight: 400; color: var(--color-text-muted); }
+
+/* Prominent numbers (stat cards, prices) use the display face */
+.stat-number, .display-number { font-family: var(--font-display); font-weight: 700; }
+
+@media (max-width: 768px) {
+  h1, .h1, .display-1 { font-size: 2rem; }
+  h2, .h2 { font-size: 1.5rem; }
+  h3, .h3 { font-size: 1.125rem; }
+}

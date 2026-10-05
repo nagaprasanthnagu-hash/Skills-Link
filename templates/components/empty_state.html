@@ -1,0 +1,10 @@
+{% comment %}
+Usage: {% include 'components/empty_state.html' with icon='bi-inbox' title='No bookings yet' subtitle='Book your first service to see it here.' cta_url=... cta_label='Book a Service' %}
+`icon`, `title` are required; `subtitle`, `cta_url`, `cta_label` are optional.
+{% endcomment %}
+<div class="empty-state animate-fade-in">
+    <div class="empty-icon"><i class="bi {{ icon|default:'bi-inbox' }}" aria-hidden="true"></i></div>
+    <h3 class="mb-1">{{ title }}</h3>
+    {% if subtitle %}<p class="mb-3">{{ subtitle }}</p>{% endif %}
+    {% if cta_url %}<a href="{{ cta_url }}" class="btn btn-primary">{{ cta_label|default:"Get Started" }}</a>{% endif %}
+</div>

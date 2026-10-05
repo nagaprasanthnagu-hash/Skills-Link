@@ -1,0 +1,138 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags static %}
+{% block title %}Provider Dashboard{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/provider.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container section provider-page">
+    {% if profile_incomplete %}
+        <div class="alert alert-warning d-flex align-items-center gap-2" role="alert">
+            <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+            <div>Your profile is <strong>incomplete</strong>. <a href="{% url 'providers:profile_setup' %}">Select your service category</a> to start receiving bookings.</div>
+        </div>
+    {% endif %}
+
+    <section class="glass-panel-strong provider-summary reveal-on-scroll" aria-label="Provider summary">
+        <div class="ps-identity">
+            {% if provider_profile.profile_photo %}
+                <img class="ps-avatar" src="{{ provider_profile.profile_photo.url }}" alt="{{ request.user.userprofile.full_name }}">
+            {% else %}
+                <div class="ps-avatar ps-avatar-fallback" aria-hidden="true">{{ request.user.userprofile.full_name|default:request.user.username|first|upper }}</div>
+            {% endif %}
+            <div>
+                <div class="greeting-eyebrow">Welcome back</div>
+                <h1>{{ request.user.userprofile.full_name }}</h1>
+                <span class="provider-role-badge mb-2"><span class="status-dot" aria-hidden="true"></span>Service Provider</span>
+                {% if provider_profile.category or provider_profile.experience_years %}
+                    <p class="ps-meta">{% if provider_profile.category %}{{ provider_profile.category.name }}{% endif %}{% if provider_profile.category and provider_profile.experience_years %} &middot; {% endif %}{% if provider_profile.experience_years %}{{ provider_profile.experience_years }} yrs experience{% endif %}</p>
+                {% endif %}
+            </div>
+        </div>
+        <a href="{% url 'providers:profile_setup' %}" class="btn btn-light"><i class="bi bi-pencil" aria-hidden="true"></i> Edit Profile</a>
+    </section>
+
+    <div class="stat-grid stagger">
+        {% include 'components/cards.html' with variant='stat' icon='bi-inbox' value=pending_bookings|length label='Pending in Your Category' accent='warning' %}
+        {% include 'components/cards.html' with variant='stat' icon='bi-briefcase' value=active_bookings|length label='Active Jobs' %}
+        {% include 'components/cards.html' with variant='stat' icon='bi-check2-circle' value=completed_count label='Completed' accent='success' %}
+        <div class="stat-card card-float">
+            <div class="stat-icon"><i class="bi bi-star" aria-hidden="true"></i></div>
+            <div class="stat-number">{% if average_rating %}{{ average_rating }}{% else %}—{% endif %}</div>
+            <div class="stat-label">Avg. Rating ({{ review_count }} reviews)</div>
+        </div>
+    </div>
+
+    {% url 'providers:tags' as tags_url %}
+    <div class="dashboard-panel reveal-on-scroll">
+        <div class="panel-header flex-wrap">
+            <h2 class="h5 mb-0">Specialized Services</h2>
+            <a href="{% url 'providers:tags' %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-tags" aria-hidden="true"></i> Manage Tags</a>
+        </div>
+        {% with tags=request.user.provider_profile.service_tags.all %}
+            {% if tags %}
+                <div class="tag-list">
+                    {% for tag in tags %}<span class="tag-chip">{{ tag.display }}</span>{% endfor %}
+                </div>
+            {% else %}
+                {% include 'components/empty_state.html' with icon='bi-tags' title='No service tags yet' subtitle='Add tags like #fan or #plumbing so customers searching for that exact work can find you.' cta_url=tags_url cta_label='Add Service Tags' %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="dashboard-panel reveal-on-scroll">
+        <div class="panel-header"><h2 class="h5">Pending Bookings in Your Category</h2></div>
+        {% if pending_bookings %}
+            <div class="table-responsive">
+                <table class="table table-app table-stack align-middle mb-0">
+                    <thead><tr><th>#</th><th>Customer</th><th>Preferred Time</th><th>Address</th><th><span class="visually-hidden">Action</span></th></tr></thead>
+                    <tbody>
+                    {% for booking in pending_bookings %}
+                        <tr>
+                            <td data-label="#">{{ booking.id }}</td>
+                            <td data-label="Customer">{{ booking.customer.user.userprofile.full_name }}</td>
+                            <td data-label="Preferred Time">{{ booking.preferred_datetime|date:"d M Y, H:i" }}</td>
+                            <td data-label="Address">{{ booking.address|truncatechars:30 }}</td>
+                            <td class="cell-actions"><a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-sm btn-primary">View &amp; Accept</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            {% include 'components/empty_state.html' with icon='bi-inbox' title='Nothing pending' subtitle='No pending bookings in your category right now.' %}
+        {% endif %}
+    </div>
+
+    <div class="dashboard-panel reveal-on-scroll">
+        <div class="panel-header"><h2 class="h5">Your Active Jobs</h2></div>
+        {% if active_bookings %}
+            <div class="table-responsive">
+                <table class="table table-app table-stack align-middle mb-0">
+                    <thead><tr><th>#</th><th>Customer</th><th>Preferred Time</th><th>Status</th><th><span class="visually-hidden">Action</span></th></tr></thead>
+                    <tbody>
+                    {% for booking in active_bookings %}
+                        <tr>
+                            <td data-label="#">{{ booking.id }}</td>
+                            <td data-label="Customer">{{ booking.customer.user.userprofile.full_name }}</td>
+                            <td data-label="Preferred Time">{{ booking.preferred_datetime|date:"d M Y, H:i" }}</td>
+                            <td data-label="Status">{{ booking.status|status_badge }}</td>
+                            <td class="cell-actions"><a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-sm btn-outline-primary">Manage</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            {% include 'components/empty_state.html' with icon='bi-briefcase' title='No active jobs' subtitle='No active jobs at the moment.' %}
+        {% endif %}
+    </div>
+
+    <div class="dashboard-panel reveal-on-scroll">
+        <div class="panel-header"><h2 class="h5">Completed Services</h2></div>
+        {% if completed_bookings %}
+            <div class="table-responsive">
+                <table class="table table-app table-stack align-middle mb-0">
+                    <thead><tr><th>#</th><th>Customer</th><th>Category</th><th>Photos</th><th><span class="visually-hidden">Action</span></th></tr></thead>
+                    <tbody>
+                    {% for booking in completed_bookings %}
+                        <tr>
+                            <td data-label="#">{{ booking.id }}</td>
+                            <td data-label="Customer">{{ booking.customer.user.userprofile.full_name }}</td>
+                            <td data-label="Category">{{ booking.category.name }}</td>
+                            <td data-label="Photos">{{ booking.work_photos.count }} uploaded</td>
+                            <td class="cell-actions"><a href="{% url 'providers:work_photo_upload' booking.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-camera" aria-hidden="true"></i> Upload Work Photos</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            {% include 'components/empty_state.html' with icon='bi-check-circle' title='No completed services yet' subtitle='Completed bookings will appear here so you can showcase your work.' %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

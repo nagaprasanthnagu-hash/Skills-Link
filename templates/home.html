@@ -1,0 +1,221 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home-hero.css' %}">
+{% endblock %}
+
+{% block content %}
+<!--
+  HERO — Red Glass: glass search panel beside a stack of glass feature cards.
+  The old SVG illustration (static/images/hero-home-services.svg) is no longer
+  referenced; nothing was deleted.
+-->
+<section class="hero-v2">
+    <div class="container">
+        <div class="hero-v2-grid">
+        <div class="hero-v2-panel">
+            <span class="hero-trust-badge"><i class="bi bi-shield-check"></i> Trusted Local Services</span>
+            <h1 class="hero-v2-title">Find the Right Service Provider<br>for <span class="text-emphasis">Your Home</span></h1>
+            <p class="hero-v2-lead">
+                SkillLink connects you with trusted local service providers for all your home service needs. Search, choose, and book with ease — all in one place.
+            </p>
+
+            {# Real search: submits to the server-side Provider Service Tag #}
+            {# search (SearchResultsView / templates/search_results.html).  #}
+            {# This is the one minimal integration change to the approved   #}
+            {# homepage — only this action attribute — required so the     #}
+            {# existing hero search box reaches the real tag search instead #}
+            {# of the categories page's client-side name filter.            #}
+            <form class="hero-search-bar hero-v2-search" data-hero-search action="{% url 'search' %}" method="get">
+                <i class="bi bi-search"></i>
+                <input type="text" name="q" placeholder="Search or try #fan" aria-label="Search for a service or tag" autocomplete="off">
+                <button type="submit" class="btn btn-primary btn-pill">Search</button>
+            </form>
+
+            {# Quick tag shortcuts — plain links into the EXISTING search route (?q=). #}
+            <div class="d-flex flex-wrap align-items-center gap-2 mt-3 hero-tag-row" aria-label="Popular service tags">
+                <span class="small text-muted-bookinghub me-1">Try:</span>
+                <a class="hero-tag" href="{% url 'search' %}?q=fan">#fan</a>
+                <a class="hero-tag" href="{% url 'search' %}?q=plumbing">#plumbing</a>
+                <a class="hero-tag" href="{% url 'search' %}?q=cleaning">#cleaning</a>
+                <a class="hero-tag" href="{% url 'search' %}?q=painting">#painting</a>
+                <a class="hero-tag" href="{% url 'search' %}?q=acrepair">#acrepair</a>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-3 mt-4 hero-v2-actions">
+                <a href="{% url 'bookings:create' %}" class="btn btn-primary btn-lg btn-pill"><i class="bi bi-calendar-check"></i> Create Booking</a>
+                <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg btn-pill"><i class="bi bi-person-plus"></i> Join as Provider</a>
+                <a href="{% url 'categories:list' %}" class="hero-v2-explore">Explore Services <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <div class="hero-glass-stack" aria-hidden="true">
+            <div class="hero-glass-card">
+                <div class="hero-glass-row">
+                    <span class="hero-glass-icon"><i class="bi bi-search"></i></span>
+                    <div><b>Search by service or #tag</b><span class="sub">Find providers for fans, plumbing, cleaning and more.</span></div>
+                </div>
+            </div>
+            <div class="hero-glass-card is-offset">
+                <div class="hero-glass-row">
+                    <span class="hero-glass-icon"><i class="bi bi-calendar-check"></i></span>
+                    <div><b>Create a booking</b><span class="sub">Pick a service, date and address in a few steps.</span></div>
+                </div>
+            </div>
+            <div class="hero-glass-card">
+                <div class="hero-glass-row">
+                    <span class="hero-glass-icon"><i class="bi bi-star-fill"></i></span>
+                    <div><b>Review completed work</b><span class="sub">Rate your provider once the job is done.</span></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+<!-- TRUST STRIP — Section 3 / Section 6's sibling: benefit strip, no fake numbers. -->
+<div class="container">
+    <div class="stats-bar stats-bar-4 reveal-on-scroll">
+        <div class="stat-item">
+            <i class="bi bi-patch-check-fill"></i>
+            <div>
+                <b>Verified Providers</b>
+                <span class="d-block">Trusted and skilled local professionals</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <i class="bi bi-lightning-charge-fill"></i>
+            <div>
+                <b>Easy Booking</b>
+                <span class="d-block">Quick and simple process</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <i class="bi bi-shield-lock-fill"></i>
+            <div>
+                <b>Safe &amp; Secure</b>
+                <span class="d-block">Your trust matters to us</span>
+            </div>
+        </div>
+        <div class="stat-item">
+            <i class="bi bi-headset"></i>
+            <div>
+                <b>Local Support</b>
+                <span class="d-block">We're here to help</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- POPULAR SERVICES — Section 6. Same model-driven categories/route as before. -->
+<div class="container section">
+    <div class="d-flex justify-content-between align-items-end mb-4 reveal-on-scroll flex-wrap gap-2">
+        <div>
+            <span class="eyebrow">Categories</span>
+            <h2 class="mb-1">Popular Services</h2>
+            <p class="text-muted-bookinghub mb-0">Find the most requested home services.</p>
+        </div>
+        <a href="{% url 'categories:list' %}" class="small fw-semibold text-decoration-none flex-shrink-0">View All Services <i class="bi bi-chevron-right"></i></a>
+    </div>
+    {% if featured_categories %}
+        <div class="row g-3 stagger">
+            {% for category in featured_categories %}
+                <div class="col-6 col-md-4 col-lg-2 reveal-on-scroll">
+                    <a href="{% url 'categories:detail' category.pk %}" class="text-decoration-none">
+                        <div class="showcase-card">
+                            <div class="showcase-icon {% cycle 'category-accent-1' 'category-accent-2' 'category-accent-3' 'category-accent-4' 'category-accent-5' 'category-accent-6' 'category-accent-7' %} {% include 'components/category_pastel_class.html' with category=category %}">{% include 'components/category_icon.html' with category=category %}</div>
+                            <h3 class="h6 mb-0">{{ category.name }}</h3>
+                            <div class="showcase-price">{% include 'components/category_caption.html' with category=category %}</div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% include 'components/empty_state.html' with icon='bi-inbox' title='No categories yet' subtitle='Check back soon — new service categories are added regularly.' %}
+    {% endif %}
+</div>
+
+<!-- HOW SKILLLINK WORKS — Section 7. Exact 4-step copy from the PRD; no payment step. -->
+<div class="container-fluid px-0" style="background:var(--color-surface);" id="how-it-works">
+    <div class="container section">
+        <div class="text-center mb-5 reveal-on-scroll">
+            <span class="eyebrow">Process</span>
+            <h2>How SkillLink Works</h2>
+            <p class="text-muted-bookinghub mb-0">Get your service done in 4 simple steps.</p>
+        </div>
+        <div class="row g-4 how-it-works-row stagger">
+            <div class="col-6 col-lg-3 reveal-on-scroll position-relative">
+                <div class="how-it-works-step text-center">
+                    <div class="icon-badge-3d value-prop-icon mx-auto"><i class="bi bi-search"></i></div>
+                    <div class="how-it-works-num">01</div>
+                    <h3 class="h6 mt-1">Search a Service</h3>
+                    <p class="text-muted-bookinghub small mb-0">Find the service you need.</p>
+                </div>
+                <i class="bi bi-arrow-right how-it-works-arrow d-none d-lg-inline" aria-hidden="true"></i>
+            </div>
+            <div class="col-6 col-lg-3 reveal-on-scroll position-relative">
+                <div class="how-it-works-step text-center">
+                    <div class="icon-badge-3d value-prop-icon mx-auto"><i class="bi bi-person-check"></i></div>
+                    <div class="how-it-works-num">02</div>
+                    <h3 class="h6 mt-1">Choose a Provider</h3>
+                    <p class="text-muted-bookinghub small mb-0">View and select a suitable provider.</p>
+                </div>
+                <i class="bi bi-arrow-right how-it-works-arrow d-none d-lg-inline" aria-hidden="true"></i>
+            </div>
+            <div class="col-6 col-lg-3 reveal-on-scroll position-relative">
+                <div class="how-it-works-step text-center">
+                    <div class="icon-badge-3d value-prop-icon mx-auto"><i class="bi bi-calendar-check"></i></div>
+                    <div class="how-it-works-num">03</div>
+                    <h3 class="h6 mt-1">Create a Booking</h3>
+                    <p class="text-muted-bookinghub small mb-0">Book through the existing booking flow.</p>
+                </div>
+                <i class="bi bi-arrow-right how-it-works-arrow d-none d-lg-inline" aria-hidden="true"></i>
+            </div>
+            <div class="col-6 col-lg-3 reveal-on-scroll position-relative">
+                <div class="how-it-works-step text-center">
+                    <div class="icon-badge-3d value-prop-icon mx-auto"><i class="bi bi-check2-circle"></i></div>
+                    <div class="how-it-works-num">04</div>
+                    <h3 class="h6 mt-1">Get the Service</h3>
+                    <p class="text-muted-bookinghub small mb-0">The provider completes the service.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+  FINAL CTA — Section 3. Real home-interior photo (Pexels, free-to-use
+  license, photo by Yura Forrat: https://www.pexels.com/photo/10161222/)
+  + dark overlay, no payment/location UI.
+-->
+<div class="container section">
+    <div class="cta-v2 p-4 p-md-5 reveal-on-scroll">
+        <img
+            src="https://images.pexels.com/photos/10161222/pexels-photo-10161222.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600"
+            alt=""
+            class="cta-v2-bg"
+            aria-hidden="true"
+        >
+        <div class="cta-v2-overlay" aria-hidden="true"></div>
+        <div class="cta-v2-content d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
+            <div class="text-center text-md-start">
+                <h2 class="h3 mb-2">Need a service at home?</h2>
+                <p class="mb-0">Join SkillLink and get your home services done by trusted local providers.</p>
+            </div>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg btn-pill flex-shrink-0"><i class="bi bi-person-plus"></i> Join as Customer</a>
+            {% else %}
+                <a href="{% url 'categories:list' %}" class="btn btn-primary btn-lg btn-pill flex-shrink-0"><i class="bi bi-search"></i> Explore Services</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/hero-video.js' %}"></script>
+{% endblock %}

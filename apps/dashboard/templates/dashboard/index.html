@@ -1,0 +1,65 @@
+{% extends 'layouts/admin_base.html' %}
+{% load booking_tags %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block dashboard_content %}
+<div class="admin-head reveal-on-scroll">
+    <div>
+        <span class="eyebrow">Overview</span>
+        <h1>Admin Dashboard</h1>
+    </div>
+</div>
+
+<div class="stat-grid admin-kpi-row stagger">
+    {% include 'components/cards.html' with variant='stat' icon='bi-people' value=total_customers label='Customers' %}
+    {% include 'components/cards.html' with variant='stat' icon='bi-person-badge' value=total_providers label='Providers' accent='success' %}
+    {% include 'components/cards.html' with variant='stat' icon='bi-tags' value=total_categories label='Active Categories' accent='warning' %}
+    {% include 'components/cards.html' with variant='stat' icon='bi-calendar-check' value=total_bookings label='Total Bookings' %}
+</div>
+
+<div class="dashboard-panel reveal-on-scroll">
+    <div class="panel-header"><h2 class="h5">Booking Status Breakdown</h2></div>
+    <div class="status-grid">
+        {% for label, count in status_counts.items %}
+            <div class="status-breakdown-chip status-chip {% if label == 'Pending' %}is-pending{% elif label == 'Accepted' %}is-accepted{% elif label == 'In Progress' %}is-in-progress{% elif label == 'Completed' %}is-completed{% elif label == 'Cancelled' %}is-cancelled{% else %}is-neutral{% endif %}">
+                <div class="sc-count">{{ count }}</div>
+                <div class="sc-label">{{ label }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="glass-panel-strong admin-actions reveal-on-scroll">
+    <h2 class="h5 mb-3">Quick Actions</h2>
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'dashboard:users' %}" class="btn btn-outline-primary"><i class="bi bi-people" aria-hidden="true"></i> Manage Users</a>
+        <a href="{% url 'dashboard:providers' %}" class="btn btn-outline-primary"><i class="bi bi-person-badge" aria-hidden="true"></i> Manage Providers</a>
+        <a href="{% url 'categories:manage_list' %}" class="btn btn-outline-primary"><i class="bi bi-tags" aria-hidden="true"></i> Manage Categories</a>
+        <a href="/admin/" class="btn btn-light" target="_blank"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> Django Admin</a>
+    </div>
+</div>
+
+<div class="dashboard-panel reveal-on-scroll">
+    <div class="panel-header"><h2 class="h5">Recent Bookings</h2></div>
+    {% if recent_bookings %}
+        <div class="table-responsive">
+            <table class="table table-app table-compact table-stack align-middle mb-0">
+                <thead><tr><th>#</th><th>Customer</th><th>Provider</th><th>Category</th><th>Status</th><th><span class="visually-hidden">Action</span></th></tr></thead>
+                <tbody>
+                {% for booking in recent_bookings %}
+                    <tr>
+                        <td data-label="#">{{ booking.id }}</td>
+                        <td data-label="Customer">{{ booking.customer.user.userprofile.full_name }}</td>
+                        <td data-label="Provider">{{ booking.provider.user.userprofile.full_name|default:"—" }}</td>
+                        <td data-label="Category">{{ booking.category.name }}</td>
+                        <td data-label="Status">{{ booking.status|status_badge }}</td>
+                        <td class="cell-actions"><a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-sm btn-outline-primary">View</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        {% include 'components/empty_state.html' with icon='bi-inbox' title='No bookings yet' subtitle='Bookings will appear here as customers start requesting services.' %}
+    {% endif %}
+</div>
+{% endblock %}

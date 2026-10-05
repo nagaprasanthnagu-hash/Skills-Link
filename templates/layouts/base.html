@@ -1,0 +1,62 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070708">
+    <title>{% block title %}SkillLink{% endblock %} | Home Services Marketplace</title>
+
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/inter/inter.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/sora/sora.css' %}">
+
+    {# Design-system CSS, loaded in dependency order: tokens first, then resets, then components. #}
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat-widget.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    {% block extra_css %}{% endblock %}
+    {# Red Glass presentation layer — loaded last so it wins over every component sheet. #}
+    <link rel="stylesheet" href="{% static 'css/redglass.css' %}">
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <div class="app-shell">
+        {% include 'components/navbar.html' %}
+
+        <main class="app-main" id="main-content" data-page-main>
+            {% if messages %}
+            <div class="container mt-4">
+                {% include 'components/alerts.html' %}
+            </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
+
+        {% include 'components/footer.html' %}
+    </div>
+
+    {% include 'components/chat_widget.html' %}
+
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/chat-widget.js' %}"></script>
+    <script src="{% static 'js/scroll-motion.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

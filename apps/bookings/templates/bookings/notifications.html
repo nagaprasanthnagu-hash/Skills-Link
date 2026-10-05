@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %}
+{% load booking_tags %}
+{% block title %}Notifications{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="mb-4 reveal-on-scroll">
+        <span class="eyebrow">Updates</span>
+        <h1 class="mb-0"><i class="bi bi-bell"></i> Notifications</h1>
+    </div>
+    {% if logs %}
+        <div class="dashboard-panel p-0 overflow-hidden">
+            <div class="list-group list-group-flush">
+                {% for log in logs %}
+                    <a href="{% url 'bookings:detail' log.booking_id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3">
+                        <div>
+                            <div>Booking #{{ log.booking_id }} ({{ log.booking.category.name }}) is now {{ log.new_status|status_badge }}</div>
+                            <div class="small text-muted-bookinghub mt-1">{{ log.changed_at|date:"d M Y, H:i" }}</div>
+                        </div>
+                        <i class="bi bi-chevron-right text-muted-bookinghub"></i>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        {% include 'components/empty_state.html' with icon='bi-bell-slash' title='No notifications yet' subtitle='Status updates on your bookings will show up here.' %}
+    {% endif %}
+</div>
+{% endblock %}

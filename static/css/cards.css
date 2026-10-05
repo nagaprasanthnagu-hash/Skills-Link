@@ -1,0 +1,204 @@
+/* ==========================================================================
+   CARDS — solid white surfaces, 1px border, 14px radius, soft shadow.
+   No backdrop-filter anywhere in this file. Hover lift only on cards that
+   are interactive (.card-float, .showcase-card, .bookinghub-category-card,
+   .card-tilt).
+   ========================================================================== */
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--vv-surface);
+  box-shadow: var(--vv-shadow);
+  transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
+}
+.card-body { padding: var(--space-5); }
+
+/* Interactive card — hover lift */
+.card-float:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--vv-shadow-hover);
+}
+
+/* Legacy "glass" card classes — kept so templates don't change, rendered as
+   plain solid cards. */
+.card-glass,
+.card-glass-panel {
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--vv-shadow);
+}
+.card-glass-panel { border-radius: var(--radius-panel); }
+
+/* .card-tilt — the 3D tilt is retired; dashboard.js still sets --rx/--ry
+   but they are intentionally unused. Subtle lift instead. */
+.card-tilt {
+  transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard);
+}
+.card-tilt:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--vv-shadow-hover);
+}
+
+/* Highlighted card — teal border on hover */
+.card-glow {
+  position: relative;
+  border-radius: var(--radius-card);
+  background: var(--vv-surface);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: border-color var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard);
+}
+.card-glow:hover { border-color: var(--vv-primary); box-shadow: var(--vv-shadow-hover); }
+
+/* Icon badge — flat soft-teal tile (the old floating 3D badge is retired) */
+.icon-badge-3d {
+  border-radius: 12px;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Stat / KPI card */
+.stat-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-5);
+  background: var(--vv-surface);
+  box-shadow: var(--vv-shadow);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card .stat-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  font-size: 1.2rem;
+  margin-bottom: var(--space-3);
+}
+.stat-card .stat-number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.stat-card .stat-label {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  margin-top: var(--space-1);
+}
+.stat-card.accent-success .stat-icon { background: var(--color-success-50); color: var(--vv-success); }
+.stat-card.accent-warning .stat-icon { background: var(--color-warning-50); color: var(--vv-warning-text); }
+.stat-card.accent-danger .stat-icon { background: var(--color-danger-50); color: var(--vv-danger); }
+
+/* An icon tile placed inside a flex row (e.g. the contact details list)
+   must not inherit the centring auto-margins meant for stacked cards. */
+.d-flex > .showcase-icon { margin: 0; }
+
+/* Category / provider showcase card */
+.showcase-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-5);
+  text-align: center;
+  height: 100%;
+  background: var(--vv-surface);
+  box-shadow: var(--vv-shadow);
+  transition: transform var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
+}
+.showcase-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--vv-shadow-hover);
+  border-color: rgba(15, 118, 110, 0.35);
+}
+.showcase-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto var(--space-3);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.showcase-card .showcase-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--vv-warning-text);
+}
+.showcase-card .showcase-price {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+.avatar-placeholder {
+  border-radius: 50%;
+  background: var(--vv-primary-soft);
+  color: var(--vv-primary-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* Provider result card (also used inside chat bubbles) */
+.provider-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--vv-surface);
+  box-shadow: var(--vv-shadow);
+  padding: var(--space-4);
+}
+
+/* Summary / price card */
+.price-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border-soft);
+}
+.price-summary-row:last-of-type { border-bottom: none; }
+.price-summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--color-text);
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Category icon accents — cycled per card. Soft tints, one hue per tile. */
+.showcase-icon.category-accent-1 { background: var(--vv-primary-soft); color: var(--vv-primary-hover); }
+.showcase-icon.category-accent-2 { background: var(--color-info-50); color: var(--vv-info); }
+.showcase-icon.category-accent-3 { background: var(--color-warning-50); color: var(--vv-warning-text); }
+.showcase-icon.category-accent-4 { background: var(--color-success-50); color: #15803D; }
+.showcase-icon.category-accent-5 { background: var(--color-purple-50); color: var(--color-purple); }
+.showcase-icon.category-accent-6 { background: var(--color-danger-50); color: var(--vv-danger); }
+.showcase-icon.category-accent-7 { background: var(--vv-surface-soft); color: #334155; }
+
+/* Name-matched pastel icons (category_pastel_class.html) — win over the cycle */
+.showcase-icon.category-pastel-plumbing { background: var(--color-info-50); color: var(--vv-info); }
+.showcase-icon.category-pastel-electrical { background: var(--color-warning-50); color: var(--vv-warning-text); }
+.showcase-icon.category-pastel-cleaning { background: var(--color-success-50); color: #15803D; }
+.showcase-icon.category-pastel-painting { background: var(--color-purple-50); color: var(--color-purple); }
+.showcase-icon.category-pastel-carpentry { background: var(--color-danger-50); color: var(--vv-danger); }
+.showcase-icon.category-pastel-appliance { background: var(--color-teal-50); color: var(--vv-primary-hover); }

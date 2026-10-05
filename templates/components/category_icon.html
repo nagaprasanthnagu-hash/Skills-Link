@@ -1,0 +1,19 @@
+{% comment %}
+Category icon mapping — presentation-only, template-side lookup by
+category NAME substring (no new model field, no Python code, no
+backend change). Every icon below is from the already-vendored
+Bootstrap Icons set (static/vendor/bootstrap-icons) — no new asset,
+no external/copyrighted image.
+
+Categories not covered by an explicit match keep the original
+generic bi-tools icon, so nothing regresses for any category not
+listed here (including any category added later by an admin).
+{% endcomment %}
+{% if 'plumb' in category.name|lower %}<i class="bi bi-wrench-adjustable"></i>
+{% elif 'electric' in category.name|lower %}<i class="bi bi-lightning-charge-fill"></i>
+{% elif 'clean' in category.name|lower %}<i class="bi bi-bucket-fill"></i>
+{% elif 'paint' in category.name|lower %}<i class="bi bi-brush-fill"></i>
+{% elif 'carpen' in category.name|lower %}<i class="bi bi-hammer"></i>
+{% elif 'appliance' in category.name|lower %}<i class="bi bi-plug-fill"></i>
+{% elif 'ac repair' in category.name|lower %}<i class="bi bi-thermometer-snow"></i>
+{% else %}<i class="bi bi-tools"></i>{% endif %}

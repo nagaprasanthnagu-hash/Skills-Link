@@ -1,0 +1,13 @@
+{% comment %}
+Category pastel icon-circle class — presentation-only, template-side
+lookup by category NAME substring (no new model field, no Python code,
+no backend change). Companion to category_icon.html; use together on
+the same element:
+  <div class="showcase-icon {% include 'components/category_pastel_class.html' with category=category %}">
+    {% include 'components/category_icon.html' with category=category %}
+  </div>
+
+Categories not covered by an explicit match fall back to the original
+{% cycle %} accent classes (still applied by the caller alongside this
+include), so nothing regresses for any category not listed here.
+{% endcomment %}{% if 'plumb' in category.name|lower %}category-pastel-plumbing{% elif 'electric' in category.name|lower %}category-pastel-electrical{% elif 'clean' in category.name|lower %}category-pastel-cleaning{% elif 'paint' in category.name|lower %}category-pastel-painting{% elif 'carpen' in category.name|lower %}category-pastel-carpentry{% elif 'appliance' in category.name|lower %}category-pastel-appliance{% endif %}

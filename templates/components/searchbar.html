@@ -1,0 +1,39 @@
+{% comment %}
+Usage: {% include 'components/searchbar.html' with placeholder='Search categories...' filter_target='[data-search-item]' %}
+
+Purely a client-side quick-filter over elements already rendered on the
+page (matched via `filter_target`, each expected to carry
+`data-search-name="..."`). It does not call the server, so it never
+touches booking/category/pagination logic — it only shows/hides items
+within the current page.
+{% endcomment %}
+<div class="search-bar mb-4" role="search" {% if filter_target %}data-quick-filter="{{ filter_target }}"{% endif %}>
+    <i class="bi bi-search" aria-hidden="true"></i>
+    <input type="search" class="form-control" placeholder="{{ placeholder|default:'Search...' }}" aria-label="Search">
+</div>
+{% if filter_target %}
+<script>
+(function () {
+    var wrapper = document.currentScript.previousElementSibling;
+    var input = wrapper.querySelector('input');
+    var targets = document.querySelectorAll(wrapper.getAttribute('data-quick-filter'));
+    function applyFilter() {
+        var q = input.value.trim().toLowerCase();
+        targets.forEach(function (el) {
+            var name = (el.getAttribute('data-search-name') || '').toLowerCase();
+            el.style.display = !q || name.includes(q) ? '' : 'none';
+        });
+    }
+    input.addEventListener('input', applyFilter);
+
+    // Pick up a query handed off from the homepage hero search (sessionStorage,
+    // no server-side search param involved) and apply it once on load.
+    var pending = sessionStorage.getItem('servora_search_query');
+    if (pending) {
+        input.value = pending;
+        applyFilter();
+        sessionStorage.removeItem('servora_search_query');
+    }
+})();
+</script>
+{% endif %}

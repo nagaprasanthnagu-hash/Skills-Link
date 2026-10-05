@@ -1,0 +1,14 @@
+{% comment %}
+Usage:
+  {% include 'components/loading.html' %}                      -> centered spinner
+  {% include 'components/loading.html' with skeleton_rows=3 %} -> skeleton table rows
+{% endcomment %}
+{% if skeleton_rows %}
+    <div class="skeleton mb-2" style="height:44px;"></div>
+    <div class="skeleton mb-2" style="height:44px;"></div>
+    <div class="skeleton mb-2" style="height:44px;"></div>
+{% else %}
+    <div class="text-center py-4">
+        <span class="loading-spinner"></span>
+    </div>
+{% endif %}

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="vvHeroTitle vvHeroDesc">
+  <title id="vvHeroTitle">A home with a verified professional and a confirmed booking</title>
+  <desc id="vvHeroDesc">Illustration of a house with a toolkit, a cleaning sparkle, a verified-professional badge and a booked-appointment card.</desc>
+
+  <!-- backdrop -->
+  <rect width="640" height="480" fill="#F1F5F9"/>
+  <circle cx="470" cy="150" r="190" fill="#CCFBF1"/>
+  <circle cx="120" cy="420" r="150" fill="#E2E8F0"/>
+  <rect x="0" y="392" width="640" height="88" fill="#E2E8F0"/>
+
+  <!-- house -->
+  <g>
+    <rect x="150" y="208" width="270" height="190" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+    <path d="M128 216 L285 112 L442 216 Z" fill="#0F766E"/>
+    <path d="M128 216 L285 112 L442 216" fill="none" stroke="#115E59" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="352" y="130" width="28" height="56" rx="3" fill="#115E59"/>
+    <!-- door -->
+    <rect x="256" y="292" width="58" height="106" rx="5" fill="#0F172A"/>
+    <circle cx="302" cy="347" r="3.5" fill="#CCFBF1"/>
+    <!-- windows -->
+    <rect x="176" y="248" width="62" height="62" rx="5" fill="#CCFBF1" stroke="#0F766E" stroke-width="2"/>
+    <path d="M207 248 V310 M176 279 H238" stroke="#0F766E" stroke-width="2"/>
+    <rect x="332" y="248" width="62" height="62" rx="5" fill="#CCFBF1" stroke="#0F766E" stroke-width="2"/>
+    <path d="M363 248 V310 M332 279 H394" stroke="#0F766E" stroke-width="2"/>
+    <!-- roof emblem -->
+    <circle cx="285" cy="178" r="17" fill="#FFFFFF"/>
+    <path d="M276 178 l7 7 l12 -14" fill="none" stroke="#0F766E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- toolbox -->
+  <g transform="translate(70 352)">
+    <rect x="0" y="14" width="96" height="58" rx="8" fill="#0F172A"/>
+    <rect x="30" y="2" width="36" height="16" rx="5" fill="none" stroke="#0F172A" stroke-width="5"/>
+    <rect x="0" y="36" width="96" height="6" fill="#334155"/>
+    <rect x="42" y="30" width="12" height="18" rx="3" fill="#CCFBF1"/>
+  </g>
+
+  <!-- wrench -->
+  <g transform="translate(440 318) rotate(-35)">
+    <rect x="0" y="22" width="120" height="16" rx="8" fill="#0F766E"/>
+    <path d="M120 30 m-6 -22 a28 28 0 1 1 0 44 l-12 -10 v-24 z" fill="#0F766E"/>
+    <circle cx="14" cy="30" r="5" fill="#CCFBF1"/>
+  </g>
+
+  <!-- verified professional badge -->
+  <g transform="translate(72 118)">
+    <rect width="184" height="64" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+    <circle cx="34" cy="32" r="18" fill="#CCFBF1"/>
+    <path d="M34 20 l12 4 v8 c0 8 -5 13 -12 16 c-7 -3 -12 -8 -12 -16 v-8 z" fill="#0F766E"/>
+    <path d="M28 32 l4 4 l8 -9" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="64" y="20" width="90" height="9" rx="4.5" fill="#0F172A"/>
+    <rect x="64" y="38" width="62" height="8" rx="4" fill="#CBD5E1"/>
+  </g>
+
+  <!-- booking card -->
+  <g transform="translate(404 76)">
+    <rect width="180" height="112" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
+    <rect width="180" height="30" rx="14" fill="#0F766E"/>
+    <rect y="16" width="180" height="14" fill="#0F766E"/>
+    <circle cx="22" cy="15" r="4" fill="#CCFBF1"/>
+    <rect x="34" y="11" width="56" height="8" rx="4" fill="#CCFBF1"/>
+    <g fill="#E2E8F0">
+      <rect x="16" y="46" width="22" height="16" rx="4"/><rect x="46" y="46" width="22" height="16" rx="4"/>
+      <rect x="76" y="46" width="22" height="16" rx="4"/><rect x="106" y="46" width="22" height="16" rx="4"/>
+      <rect x="16" y="70" width="22" height="16" rx="4"/><rect x="76" y="70" width="22" height="16" rx="4"/>
+      <rect x="136" y="46" width="22" height="16" rx="4"/>
+    </g>
+    <rect x="46" y="70" width="22" height="16" rx="4" fill="#0F766E"/>
+    <path d="M52 78 l4 4 l7 -8" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="106" y="70" width="52" height="16" rx="4" fill="#CCFBF1"/>
+  </g>
+
+  <!-- cleaning sparkle -->
+  <g fill="#0F766E">
+    <path d="M520 262 l7 -20 l7 20 l20 7 l-20 7 l-7 20 l-7 -20 l-20 -7 z"/>
+    <path d="M580 214 l4 -11 l4 11 l11 4 l-11 4 l-4 11 l-4 -11 l-11 -4 z" opacity=".55"/>
+  </g>
+</svg>

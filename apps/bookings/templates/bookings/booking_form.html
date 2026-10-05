@@ -1,0 +1,123 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Book a Service{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/wizard.css' %}">{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="mb-4 reveal-on-scroll">
+        <span class="eyebrow">Book a Service</span>
+        <h1 class="mb-0">Tell Us What You Need</h1>
+        <p class="text-muted-bookinghub mb-0">A qualified provider will be notified as soon as you confirm.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-float p-4 p-md-5 animate-fade-up">
+
+                <div class="step-indicator mb-4" data-step-indicator>
+                    <div class="step-indicator-item is-active" data-step-dot="1">
+                        <span class="step-indicator-circle"><i class="bi bi-tools"></i></span>
+                        <span class="step-indicator-label">Service</span>
+                    </div>
+                    <div class="step-indicator-item" data-step-dot="2">
+                        <span class="step-indicator-circle">2</span>
+                        <span class="step-indicator-label">Details</span>
+                    </div>
+                    <div class="step-indicator-item" data-step-dot="3">
+                        <span class="step-indicator-circle">3</span>
+                        <span class="step-indicator-label">Schedule</span>
+                    </div>
+                    <div class="step-indicator-item" data-step-dot="4">
+                        <span class="step-indicator-circle">4</span>
+                        <span class="step-indicator-label">Confirm</span>
+                    </div>
+                </div>
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="post" class="needs-validation" data-loading-form data-booking-wizard novalidate>
+                    {% csrf_token %}
+
+                    <div class="wizard-step is-active" data-wizard-step="1">
+                        <h2 class="h6 text-uppercase text-muted-bookinghub mb-3">1. Choose a Service</h2>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.category.id_for_label }}">{{ form.category.label }} <span class="text-danger">*</span></label>
+                            {{ form.category }}
+                            {% if form.category.help_text %}<div class="form-text">{{ form.category.help_text }}</div>{% endif %}
+                            {% for error in form.category.errors %}<div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="wizard-step" data-wizard-step="2">
+                        <h2 class="h6 text-uppercase text-muted-bookinghub mb-3">2. Service Details</h2>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.description.id_for_label }}">{{ form.description.label }} <span class="text-danger">*</span></label>
+                            {{ form.description }}
+                            {% if form.description.help_text %}<div class="form-text">{{ form.description.help_text }}</div>{% endif %}
+                            {% for error in form.description.errors %}<div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.address.id_for_label }}">{{ form.address.label }} <span class="text-danger">*</span></label>
+                            {{ form.address }}
+                            {% if form.address.help_text %}<div class="form-text">{{ form.address.help_text }}</div>{% endif %}
+                            {% for error in form.address.errors %}<div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="wizard-step" data-wizard-step="3">
+                        <h2 class="h6 text-uppercase text-muted-bookinghub mb-3">3. Schedule</h2>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.preferred_datetime.id_for_label }}">{{ form.preferred_datetime.label }} <span class="text-danger">*</span></label>
+                            {{ form.preferred_datetime }}
+                            {% if form.preferred_datetime.help_text %}<div class="form-text">{{ form.preferred_datetime.help_text }}</div>{% endif %}
+                            {% for error in form.preferred_datetime.errors %}<div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> {{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="wizard-step" data-wizard-step="4">
+                        <h2 class="h6 text-uppercase text-muted-bookinghub mb-3">4. Confirm Booking</h2>
+                        <div class="confirm-summary" data-confirm-summary>
+                            <div class="confirm-row"><span>Category</span><strong data-confirm-category>—</strong></div>
+                            <div class="confirm-row"><span>Address</span><strong data-confirm-address>—</strong></div>
+                            <div class="confirm-row"><span>Scheduled for</span><strong data-confirm-datetime>—</strong></div>
+                            <div class="confirm-row confirm-row-desc"><span>Issue description</span><p data-confirm-description class="mb-0">—</p></div>
+                        </div>
+                        <p class="small text-muted-bookinghub mt-3 mb-0">You can go back to change anything before confirming.</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <button type="button" class="btn btn-ghost" data-wizard-back style="visibility:hidden;"><i class="bi bi-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary" data-wizard-next>Next Step <i class="bi bi-arrow-right"></i></button>
+                        <button type="submit" class="btn btn-primary d-none" data-wizard-submit>Confirm Booking <i class="bi bi-check2"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card card-glass p-4 position-sticky" style="top: calc(var(--navbar-height) + 1rem);">
+                <h2 class="h6 text-uppercase text-muted-bookinghub mb-3"><i class="bi bi-receipt"></i> Price Details</h2>
+                <div class="d-flex justify-content-between small mb-2">
+                    <span class="text-muted-bookinghub">Base Price</span>
+                    <span>Set by provider</span>
+                </div>
+                <div class="d-flex justify-content-between small mb-2">
+                    <span class="text-muted-bookinghub">Service Fee</span>
+                    <span>Included</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fw-semibold">
+                    <span>Total</span>
+                    <span>Provider quote</span>
+                </div>
+                <p class="small text-muted-bookinghub mt-3 mb-0">Final pricing is confirmed by your provider before the job starts — nothing is charged at booking time.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/booking-wizard.js' %}"></script>{% endblock %}

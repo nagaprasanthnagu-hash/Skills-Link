@@ -1,0 +1,111 @@
+{% load static %}
+<header class="site-header">
+<nav class="navbar navbar-expand-lg navbar-app" aria-label="Main navigation">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <span class="brand-mark" aria-hidden="true"><i class="bi bi-tools"></i></span>
+            <span>SkillLink</span>
+        </a>
+
+        <div class="d-flex align-items-center gap-2 order-lg-3">
+            <!-- Mobile-only compact account menu (notifications / profile / logout
+                 for signed-in users, Login / Sign Up for visitors). Desktop uses
+                 the horizontal row further down. -->
+            <div class="dropdown d-lg-none">
+                <button type="button" class="btn-icon position-relative" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account menu">
+                    <i class="bi bi-person-circle"></i>
+                    {% if user.is_authenticated and pending_action_count %}<span class="notification-dot"></span>{% endif %}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    {% if user.is_authenticated %}
+                        {% if user_role in 'customer,provider' %}
+                            <li><a class="dropdown-item" href="{% url 'bookings:notifications' %}"><i class="bi bi-bell"></i> Notifications{% if pending_action_count %} <span class="notification-dot position-relative ms-1" style="top:0;right:0;"></span>{% endif %}</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'accounts:profile' %}"><i class="bi bi-person"></i> Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="post" action="{% url 'accounts:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a class="dropdown-item" href="{% url 'accounts:login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+                        <li><a class="dropdown-item" href="{% url 'accounts:register' %}"><i class="bi bi-person-plus"></i> Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse order-lg-2" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link {% if '/categories/' in request.path %}active{% endif %}" href="{% url 'categories:list' %}">Services</a></li>
+                <li class="nav-item nav-item-xl"><a class="nav-link" href="{% url 'home' %}#how-it-works">How It Works</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == '/contact/' %}active{% endif %}" href="{% url 'contact' %}">Contact</a></li>
+
+                {% if user.is_authenticated %}
+                    {% if user_role == 'customer' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'customers:dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'bookings:history' %}">My Bookings</a></li>
+                    {% elif user_role == 'provider' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'providers:dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'bookings:history' %}">My Jobs</a></li>
+                    {% elif user_role == 'admin' %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard:index' %}"><i class="bi bi-speedometer2"></i> Admin Dashboard</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="nav-item nav-item-xl"><a class="nav-link" href="{% url 'accounts:register' %}">Become a Partner</a></li>
+                {% endif %}
+
+                {# Mobile: the primary action lives inside the collapsed menu #}
+                {% if not user.is_authenticated or user_role == 'customer' %}
+                    <li class="nav-item d-lg-none"><a class="btn btn-primary nav-cta nav-cta-mobile" href="{% url 'bookings:create' %}">Book a Service</a></li>
+                {% endif %}
+            </ul>
+
+            <!-- Desktop-only right-hand actions -->
+            <ul class="navbar-nav align-items-lg-center gap-lg-1 d-none d-lg-flex">
+                {% if user.is_authenticated %}
+                    {% if user_role in 'customer,provider' %}
+                        <li class="nav-item">
+                            <a class="nav-link position-relative px-2" href="{% url 'bookings:notifications' %}" data-bs-toggle="tooltip" title="Notifications" aria-label="Notifications">
+                                <i class="bi bi-bell"></i>
+                                {% if pending_action_count %}<span class="notification-dot"></span>{% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if user_role == 'customer' %}
+                        <li class="nav-item"><a class="btn btn-primary nav-cta" href="{% url 'bookings:create' %}">Book a Service</a></li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="avatar-chip">{{ user.userprofile.full_name|default:user.username|first|upper }}</span>
+                            <span class="d-none d-xl-inline">{{ user.userprofile.full_name|default:user.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'accounts:profile' %}"><i class="bi bi-person"></i> Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'accounts:logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'accounts:register' %}">Sign Up</a></li>
+                    <li class="nav-item"><a class="btn btn-primary nav-cta ms-lg-1" href="{% url 'bookings:create' %}">Book a Service</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+</header>

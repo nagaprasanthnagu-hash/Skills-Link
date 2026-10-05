@@ -1,0 +1,35 @@
+{% extends 'layouts/base.html' %}
+{% block title %}About{% endblock %}
+{% block content %}
+<div class="container section">
+    <div class="text-center mb-5 reveal-on-scroll" style="max-width:680px; margin-inline:auto;">
+        <span class="eyebrow">About Us</span>
+        <h1>About SkillLink</h1>
+        <p class="lead">SkillLink is an on-demand home services and local skilled-worker booking platform, built as a final year B.Sc. Information Technology project.</p>
+        <p class="text-muted-bookinghub">The platform digitizes the home-services booking process — replacing informal phone calls and word-of-mouth referrals with a structured, trackable, and transparent online system. Customers can browse verified providers by category, raise a booking request, and follow its status from Pending through to Completed. Providers get a steady, organized channel for new work within their category. Administrators retain full operational visibility over the marketplace.</p>
+    </div>
+    <div class="row g-4 mt-3 stagger">
+        <div class="col-md-4 reveal-on-scroll">
+            <div class="card-glow p-4 h-100">
+                <div class="showcase-icon"><i class="bi bi-people"></i></div>
+                <h3 class="h5 mt-2">For Customers</h3>
+                <p class="text-muted-bookinghub mb-0">Book trusted local help for plumbing, electrical, cleaning, painting, and more — with live status tracking.</p>
+            </div>
+        </div>
+        <div class="col-md-4 reveal-on-scroll">
+            <div class="card-glow p-4 h-100">
+                <div class="showcase-icon"><i class="bi bi-briefcase"></i></div>
+                <h3 class="h5 mt-2">For Providers</h3>
+                <p class="text-muted-bookinghub mb-0">Receive job requests within your category, manage your queue, and build a rating history.</p>
+            </div>
+        </div>
+        <div class="col-md-4 reveal-on-scroll">
+            <div class="card-glow p-4 h-100">
+                <div class="showcase-icon"><i class="bi bi-shield-check"></i></div>
+                <h3 class="h5 mt-2">For Admins</h3>
+                <p class="text-muted-bookinghub mb-0">Monitor platform health, manage categories, and oversee users from a dedicated dashboard.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
